@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{ marca }} – Seus direitos em voos</title>
+  <meta name="description" content="Teu voo teve atraso, cancelamento, overbooking ou bagagem extraviada? O {{ marca }} avalia seu caso gratuitamente e conduz tudo pelo WhatsApp.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0b1220"/>
+  <style>
+    :root{ --bg:#0b1220; --primary:#2563eb; --muted:#64748b; --card:#ffffff; }
+    *{box-sizing:border-box}
+    body{font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;color:#111827;background:#f8fafc}
+
+    /* NAV / marca */
+    .brandbar{ background:#0f172a; }
+    .brandbar .navbar-brand{ color:#fff; font-weight:700; letter-spacing:.2px }
+    .brandbar .navbar-brand span{ color:#60a5fa }
+    .navbar .nav-link{ color:#cbd5e1 }
+    .navbar .nav-link:hover{ color:#fff }
+
+    /* HERO minimalista */
+    .hero-compact{ height: 40vh; min-height: 260px; position: relative; display: grid; place-items: center; isolation: isolate; }
+    .hero-bg{ position:absolute; inset:0; background-size:cover; background-position:center; filter: blur(2px); transform: scale(1.03); z-index:-2; background-image:url('https://res.cloudinary.com/demo/image/upload/v1700001000/air/hero1.jpg');}
+    .hero-overlay{ position:absolute; inset:0; z-index:-1; background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.6));}
+    .hero-content{ max-width: 820px; padding: 0 16px; color:#fff; text-align:center; }
+    .hero-eyebrow{ display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25); color:#e5e7eb; padding:4px 10px; border-radius:999px; font-size:12px; margin-bottom:10px }
+    .hero-title{ font-size: clamp(24px, 3.6vw, 36px); font-weight: 700; margin-bottom: 8px; }
+    .hero-subtitle{ font-size: clamp(13px, 2.1vw, 16px); opacity:.95; margin-bottom: 16px; }
+    .hero-helpers{ gap:14px; flex-wrap:wrap; font-size:12px; color:#d1d5db }
+
+    /* Benefícios cards */
+    .icon-wrap{ width:48px; height:48px; display:grid; place-items:center; border-radius: 12px; background:#eff6ff; color:#2563eb; font-size:20px; }
+
+    /* COMO FUNCIONA — timeline premium */
+    .flow{
+      position: relative;
+      padding: 22px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid #e5e7eb;
+    }
+    .flow::before{
+      content:""; position:absolute; left:28px; top:32px; bottom:32px;
+      width:2px; background: linear-gradient(180deg,#dbeafe,#bfdbfe);
+    }
+    .flow-item{ position:relative; padding-left:72px; padding-bottom:20px; }
+    .flow-item:last-child{ padding-bottom:0 }
+    .flow-dot{
+      position:absolute; left:20px; top:0;
+      width:18px; height:18px; border-radius:999px; background:#2563eb; box-shadow:0 0 0 6px #eaf2ff;
+    }
+    .flow-icon{
+      position:absolute; left:44px; top:-6px;
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:#eff6ff; color:#1d4ed8;
+    }
+    .flow-title{ font-weight:700; margin-bottom:4px; }
+    .flow-text{ font-size:14px; color:#475569; margin:0 }
+
+    /* POR QUE O GRUPO — cards premium */
+    .why-card{
+      background: var(--card); border:1px solid #e5e7eb; border-radius:16px; padding:20px; height:100%;
+      box-shadow: 0 10px 24px -12px rgba(15,23,42,.18);
+    }
+    .why-card h3{ font-size:16px; margin:10px 0 8px }
+    .why-card p{ font-size:14px; color:#475569; margin:0 }
+    .badge-soft{
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:12px; padding:6px 10px; border-radius:999px; background:#eef2ff; color:#3730a3;
+      border:1px solid #e0e7ff;
+    }
+    .mini-bullets{ font-size:13px; color:#334155; }
+    .mini-bullets i{ color:#16a34a; margin-right:6px; }
+
+    /* Depoimentos pro */
+    .testi-card{
+      background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px;
+      height:100%; display:flex; flex-direction:column; gap:12px;
+    }
+    .testi-head{ display:flex; align-items:center; gap:12px }
+    .avatar{ width:40px; height:40px; border-radius:999px; background:#e5e7eb; display:grid; place-items:center; font-weight:700; color:#475569; }
+    .stars{ color:#f59e0b; font-size:13px }
+    .testi-body{ font-size:14px; color:#334155 }
+    .testi-meta{ font-size:12px; color:#6b7280 }
+    .brandline{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; color:#64748b; font-size:12px }
+
+    /* Modal wizard */
+    .modal-header{ border-bottom: none; }
+    .wizard-progress{ height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden }
+    .wizard-progress .bar{ height:100%; background:#2563eb; width:0% }
+    .stepper{ display:flex; justify-content:center; gap:12px; margin-bottom:12px; }
+    .stepper .dot{ width:10px; height:10px; border-radius:999px; background:#d1d5db; }
+    .stepper .dot.active{ background:#2563eb; }
+
+    /* CTA strip */
+    .cta-strip{ background:#0f172a; color:#e5e7eb; }
+
+    @media (max-width: 576px){
+      .hero-compact{ height: 34vh; min-height: 220px; }
+      .flow::before{ left:20px }
+      .flow-item{ padding-left:64px }
+      .flow-dot{ left:12px }
+      .flow-icon{ left:36px }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg brandbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fa-solid fa-plane-departure me-2"></i>
+      <strong>{{ marca.split(' ')[0] }}</strong> <span>{{ ' '.join(marca.split(' ')[1:]) }}</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="topNav" class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto gap-2">
+        <li class="nav-item"><a class="nav-link" href="#como-funciona">Como funciona</a></li>
+        <li class="nav-item"><a class="nav-link" href="#porque">Por que o {{ marca }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="#depoimentos">Depoimentos</a></li>
+        <li class="nav-item"><a class="btn btn-success btn-sm" href="#" data-bs-toggle="modal" data-bs-target="#wizardModal">
+          <i class="fab fa-whatsapp me-1"></i> Iniciar avaliação
+        </a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-compact position-relative overflow-hidden">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+
+  <!-- carrossel oculto (só para trocar o fundo) -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3800" aria-hidden="true">
+    <div class="carousel-inner d-none">
+      {% for url in hero_imagens %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}"><img src="{{ url }}" alt=""></div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="hero-content container">
+    <span class="hero-eyebrow">Especialistas em direitos do passageiro</span>
+    <h1 class="hero-title">Voo com problema? Fale com um especialista agora.</h1>
+    <p class="hero-subtitle">Análise gratuita. Você só paga se receber.</p>
+    <div class="d-flex justify-content-center gap-2">
+      <a href="#" class="btn btn-primary btn-sm shadow" data-bs-toggle="modal" data-bs-target="#wizardModal">
+        <i class="fa-solid fa-clipboard-list me-1"></i> Avaliar meu caso
+      </a>
+      <a href="#" class="btn btn-outline-light btn-sm" onclick="return abrirWhatsAppLivre();">
+        <i class="fab fa-whatsapp me-1"></i> Falar agora
+      </a>
+    </div>
+    <div class="d-flex justify-content-center hero-helpers mt-3">
+      <span><i class="fa-solid fa-shield-halved me-1"></i> Sem custo inicial</span>
+      <span>•</span>
+      <span><i class="fa-solid fa-bolt me-1"></i> Retorno rápido</span>
+      <span>•</span>
+      <span><i class="fa-solid fa-lock me-1"></i> Dados protegidos</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section class="cta-strip py-2">
+  <div class="container d-flex align-items-center justify-content-center gap-3 flex-wrap">
+    <div class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-success"></i> Análise gratuita</div>
+    <div class="d-flex align-items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-success"></i> Paga só se receber</div>
+    <div class="d-flex align-items-center gap-2"><i class="fa-solid fa-comments text-success"></i> Acompanhamento pelo WhatsApp</div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA (timeline pro) -->
+<section id="como-funciona" class="py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+      <h2 class="h4 mb-0">Como funciona</h2>
+      <span class="badge-soft"><i class="fa-regular fa-clock"></i> leva ~2 minutos</span>
+    </div>
+
+    <div class="flow">
+      <div class="flow-item">
+        <span class="flow-dot"></span>
+        <div class="flow-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+        <div class="flow-title">1) Envie os dados essenciais</div>
+        <p class="flow-text">Companhia, localizador, data do voo e o problema. Sem burocracia, só o que importa para começar.</p>
+      </div>
+
+      <div class="flow-item">
+        <span class="flow-dot"></span>
+        <div class="flow-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+        <div class="flow-title">2) Análise gratuita e elegibilidade</div>
+        <p class="flow-text">Checamos seu direito (atraso, cancelamento, overbooking, bagagem) e indicamos a melhor estratégia.</p>
+      </div>
+
+      <div class="flow-item">
+        <span class="flow-dot"></span>
+        <div class="flow-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        <div class="flow-title">3) Execução sem risco</div>
+        <p class="flow-text">Você acompanha tudo pelo WhatsApp. <strong>Só paga se receber</strong>. Transparência do início ao fim.</p>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#wizardModal">
+        <i class="fa-solid fa-pen-to-square me-1"></i> Começar agora
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUE O GRUPO CHAVES RECLAMEVOO (cards premium) -->
+<section id="porque" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="h4 text-center mb-4">Por que o {{ marca }}?</h2>
+    <div class="row g-4">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="why-card">
+          <div class="icon-wrap"><i class="fa-solid fa-scale-balanced"></i></div>
+          <h3>Especialistas no tema</h3>
+          <p>Foco em direitos do passageiro: know-how em atraso, cancelamento, overbooking e bagagem.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="why-card">
+          <div class="icon-wrap"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Resposta rápida</h3>
+          <p>Atendimento ágil e direto pelo WhatsApp. Sem call desnecessário, sem rodeios.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="why-card">
+          <div class="icon-wrap"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3>Sem custo inicial</h3>
+          <p>Trabalhamos por êxito: você só paga se receber. Sem letras miúdas.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="why-card">
+          <div class="icon-wrap"><i class="fa-solid fa-lock"></i></div>
+          <h3>Transparência total</h3>
+          <p>Status e documentos no seu WhatsApp. Você acompanha cada etapa.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-1">
+      <div class="col-12 col-lg-8">
+        <div class="why-card">
+          <h3 class="mb-2"><i class="fa-regular fa-thumbs-up me-1"></i> Benefícios práticos</h3>
+          <ul class="mini-bullets mb-0">
+            <li><i class="fa-solid fa-check"></i> Avaliação gratuita com retorno rápido</li>
+            <li><i class="fa-solid fa-check"></i> Estratégia definida por especialistas</li>
+            <li><i class="fa-solid fa-check"></i> Acompanhamento 100% online</li>
+            <li><i class="fa-solid fa-check"></i> Sem adiantamento de valores</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12 col-lg-4 d-grid align-content-start">
+        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#wizardModal"><i class="fab fa-whatsapp me-1"></i> Iniciar avaliação no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS (visual profissional) -->
+<section id="depoimentos" class="py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+      <h2 class="h4 mb-0">O que dizem nossos clientes</h2>
+      <div class="brandline">
+        <span><i class="fa-solid fa-medal"></i> Atendimento 5★</span>
+        <span><i class="fa-solid fa-heart"></i> Recomendado</span>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-4">
+        <div class="testi-card">
+          <div class="testi-head">
+            <div class="avatar">AL</div>
+            <div>
+              <div class="fw-semibold">Ana L.</div>
+              <div class="testi-meta">Cancelamento • LATAM</div>
+            </div>
+            <div class="ms-auto stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+          <div class="testi-body">“Cancelaram meu voo em cima da hora. O {{ marca }} orientou tudo e me manteve informada.”</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="testi-card">
+          <div class="testi-head">
+            <div class="avatar">RM</div>
+            <div>
+              <div class="fw-semibold">Rogério M.</div>
+              <div class="testi-meta">Atraso 6h • GOL</div>
+            </div>
+            <div class="ms-auto stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+            </div>
+          </div>
+          <div class="testi-body">“Foram rápidos na resposta e cuidaram de tudo. Bem mais simples do que eu esperava.”</div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="testi-card">
+          <div class="testi-head">
+            <div class="avatar">PS</div>
+            <div>
+              <div class="fw-semibold">Patrícia S.</div>
+              <div class="testi-meta">Overbooking • Azul</div>
+            </div>
+            <div class="ms-auto stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+          <div class="testi-body">“Conseguiram acordo rápido sem eu ter que correr atrás de nada.”</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#wizardModal">
+        <i class="fab fa-whatsapp me-1"></i> Começar minha avaliação
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="h4 text-center mb-4">Dúvidas frequentes</h2>
+    <div class="accordion" id="faqAcc">
+      {% for item in faq %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h-{{ loop.index }}">
+          <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#c-{{ loop.index }}">
+            {{ item.q }}
+          </button>
+        </h2>
+        <div id="c-{{ loop.index }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" data-bs-parent="#faqAcc">
+          <div class="accordion-body small text-secondary">{{ item.a }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 bg-dark text-white-50">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <small>© {{ 2025 }} {{ marca }} • Todos os direitos reservados</small>
+    <small>Feito com Flask • Hospedado na Vercel</small>
+  </div>
+</footer>
+
+<!-- MODAL WIZARD (3 etapas) -->
+<div class="modal fade" id="wizardModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header pb-0">
+        <div class="w-100">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="modal-title"><i class="fa-solid fa-clipboard-check me-2"></i> Avaliação gratuita</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="wizard-progress mt-3"><div class="bar" id="wizBar"></div></div>
+          <div class="stepper mt-2" id="wizDots">
+            <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <form id="wizForm" class="needs-validation" novalidate>
+          <!-- STEP 1 -->
+          <div class="wiz-step" data-step="1">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Companhia aérea</label>
+                <input class="form-control" name="companhia" placeholder="Ex.: LATAM, GOL, Azul" required>
+                <div class="invalid-feedback">Informe a companhia.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Localizador / Código da reserva</label>
+                <input class="form-control" name="localizador" placeholder="ABC123" required>
+                <div class="invalid-feedback">Informe o localizador.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Data do voo</label>
+                <input type="date" class="form-control" name="data_voo" required>
+                <div class="invalid-feedback">Selecione a data.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Problema</label>
+                <select class="form-select" name="problema" required>
+                  <option value="" selected disabled>Selecione</option>
+                  <option>Atraso</option>
+                  <option>Cancelamento</option>
+                  <option>Overbooking / Embarque negado</option>
+                  <option>Bagagem (extravio/dano)</option>
+                  <option>Outros</option>
+                </select>
+                <div class="invalid-feedback">Escolha o problema.</div>
+              </div>
+            </div>
+          </div>
+          <!-- STEP 2 -->
+          <div class="wiz-step d-none" data-step="2">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Origem</label>
+                <input class="form-control" name="origem" placeholder="Ex.: GRU" required>
+                <div class="invalid-feedback">Informe a origem.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Destino</label>
+                <input class="form-control" name="destino" placeholder="Ex.: SDU" required>
+                <div class="invalid-feedback">Informe o destino.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Tempo de atraso (se houver)</label>
+                <input class="form-control" name="atraso" placeholder="Ex.: 5h30">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Valor pago (aprox.)</label>
+                <input class="form-control" name="valor" placeholder="Ex.: R$ 1.200,00">
+              </div>
+            </div>
+          </div>
+          <!-- STEP 3 -->
+          <div class="wiz-step d-none" data-step="3">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Seu nome</label>
+                <input class="form-control" name="nome" required>
+                <div class="invalid-feedback">Informe seu nome.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">WhatsApp/E-mail</label>
+                <input class="form-control" name="contato" placeholder="(DDD) número ou seu e-mail" required>
+                <div class="invalid-feedback">Informe WhatsApp ou e-mail.</div>
+              </div>
+            </div>
+            <div class="alert alert-success mt-3 mb-0 small">
+              <i class="fa-solid fa-shield-heart me-1"></i>
+              <strong>Sem custo inicial.</strong> Você só paga se receber. Enviaremos sua avaliação pelo WhatsApp.
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button class="btn btn-outline-secondary" id="btnPrev" disabled>Voltar</button>
+        <div class="d-flex gap-2">
+          <a class="btn btn-success d-none d-sm-inline" onclick="return abrirWhatsAppLivre();"><i class="fab fa-whatsapp me-1"></i> Falar agora</a>
+          <button class="btn btn-primary" id="btnNext">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="voo-cfg" type="application/json">
+  {{ {"wa_base": wa_base, "mensagem_base": mensagem_base} | tojson }}
+</script>
+<script>
+  // WhatsApp
+  const CFG = JSON.parse(document.getElementById('voo-cfg').textContent);
+  const WA_BASE = CFG.wa_base;               // exemplo: "https://api.whatsapp.com/send?phone=5517981359872&text="
+  const MSG_BASE = CFG.mensagem_base;     
+ // ex.: "Oi! Vi o site do Grupo Chaves ReclameVoo..."
+
+  // Lê o wizard (se existir) e monta a mensagem completa
+  function montarMensagemWhats(useForm = true){
+    const linhas = [MSG_BASE];
+    if(useForm){
+      const form = document.getElementById('wizForm');
+      if(form){
+        const fd = new FormData(form);
+        const campos = {
+          "Companhia": fd.get("companhia"),
+          "Localizador": fd.get("localizador"),
+          "Data do voo": fd.get("data_voo"),
+          "Problema": fd.get("problema"),
+          "Origem": fd.get("origem"),
+          "Destino": fd.get("destino"),
+          "Atraso": fd.get("atraso") || "-",
+          "Valor pago": fd.get("valor") || "-",
+          "Nome": fd.get("nome"),
+          "Contato": fd.get("contato")
+        };
+
+        // Considera "preenchido" se tiver pelo menos 2 campos além da mensagem base
+        const preenchidos = Object.values(campos)
+          .filter(v => v && String(v).trim() !== "").length;
+
+        if(preenchidos >= 2){
+          linhas.push(
+            `Companhia: ${campos["Companhia"]||""}`,
+            `Localizador: ${campos["Localizador"]||""}`,
+            `Data do voo: ${campos["Data do voo"]||""}`,
+            `Problema: ${campos["Problema"]||""}`,
+            `Rota: ${(campos["Origem"]||"")}${(campos["Origem"]||campos["Destino"]) ? " → " : ""}${campos["Destino"]||""}`,
+            `Atraso: ${campos["Atraso"]}`,
+            `Valor pago: ${campos["Valor pago"]}`,
+            `Nome: ${campos["Nome"]||""}`,
+            `Contato: ${campos["Contato"]||""}`
+          );
+        }
+      }
+    }
+    return linhas.join('\n'); // WhatsApp entende %0A (vem do encodeURIComponent)
+  }
+
+  function abrirWhatsAppLivre(){
+    const texto = montarMensagemWhats(true);
+    const url = WA_BASE + encodeURIComponent(texto);
+    window.open(url, '_blank'); 
+    return false;
+  }
+
+  // ===== Hero BG a partir do carrossel (mantido) =====
+  function setHeroBackground(src){
+    const bg = document.querySelector('.hero-bg');
+    if(bg && src) bg.style.backgroundImage = `url('${src}')`;
+  }
+  (function initHeroBG(){
+    const active = document.querySelector('#heroCarousel .carousel-item.active img');
+    if(active) setHeroBackground(active.getAttribute('src'));
+  })();
+  const heroCarousel = document.getElementById('heroCarousel');
+  if (heroCarousel){
+    heroCarousel.addEventListener('slid.bs.carousel', function(e){
+      const img = e.relatedTarget.querySelector('img');
+      if(img) setHeroBackground(img.getAttribute('src'));
+    });
+  }
+
+  // ===== Wizard (3 etapas) =====
+  const form = document.getElementById('wizForm');
+  const steps = Array.from(document.querySelectorAll('.wiz-step'));
+  const bar = document.getElementById('wizBar');
+  const dots = Array.from(document.querySelectorAll('#wizDots .dot'));
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  let current = 0;
+
+  function updateUI(){
+    steps.forEach((s, i)=> s.classList.toggle('d-none', i!==current));
+    dots.forEach((d, i)=> d.classList.toggle('active', i<=current));
+    const pct = ((current+1)/steps.length)*100;
+    bar.style.width = pct + '%';
+    btnPrev.disabled = current===0;
+    btnNext.textContent = (current===steps.length-1) ? 'Enviar avaliação' : 'Continuar';
+  }
+  updateUI();
+
+  function validateCurrentStep(){
+    const stepEl = steps[current];
+    const inputs = stepEl.querySelectorAll('input, select, textarea');
+    let ok = true;
+    inputs.forEach(el=>{
+      // valida apenas os required visíveis na etapa atual
+      if(el.hasAttribute('required') && !el.checkValidity()){
+        el.classList.add('is-invalid');
+        ok = false;
+      } else {
+        el.classList.remove('is-invalid');
+      }
+    });
+    return ok;
+  }
+
+  btnPrev.addEventListener('click', ()=>{ if(current>0){ current--; updateUI(); } });
+
+  btnNext.addEventListener('click', ()=>{
+    if(!validateCurrentStep()) return;
+    if(current < steps.length-1){
+      current++; updateUI();
+    } else {
+      // Final: abre WhatsApp com TODAS as respostas
+      const texto = montarMensagemWhats(true);
+      const url = WA_BASE + encodeURIComponent(texto);
+      window.open(url, '_blank');
+    }
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>
