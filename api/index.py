@@ -19,6 +19,7 @@ SITE_URL = "https://www.grupochavesbrasil.com.br"
 CIDADE = "São José do Rio Preto"
 WHATSAPP_PHONE = "+5517981359872"
 WHATSAPP_EXIBICAO = "(17) 98135-9872"
+CRECI = "331483-F"
 MENSAGEM_BASE_IMOVEIS = "Olá! Vi o anúncio no site do Grupo Chaves Imóveis e tenho interesse"
 ATUALIZADO_EM = "2026-10-13"  # data de atualização dos anúncios (sitemap)
 
@@ -165,6 +166,7 @@ def schema_empresa():
         "logo": f"{SITE_URL}/static/logo.png",
         "image": f"{SITE_URL}/static/og-image.jpg",
         "telephone": WHATSAPP_PHONE,
+        "identifier": {"@type": "PropertyValue", "propertyID": "CRECI", "value": CRECI},
         "address": {"@type": "PostalAddress", "addressLocality": CIDADE, "addressRegion": "SP", "addressCountry": "BR"},
         "areaServed": [{"@type": "City", "name": c} for c in (CIDADE, "Mirassol", "Bady Bassitt", "Cedral", "Engenheiro Schmidt")],
     }
@@ -205,6 +207,7 @@ def contexto_global():
         "marca": MARCA_IMOVEIS,
         "site_url": SITE_URL,
         "whatsapp_exibicao": WHATSAPP_EXIBICAO,
+        "creci": CRECI,
         "wa_base": f"https://api.whatsapp.com/send?phone={WHATSAPP_PHONE}&text=",
         "mensagem_base": MENSAGEM_BASE_IMOVEIS,
         "rastreio": RASTREIO,
