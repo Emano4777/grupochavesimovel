@@ -28,7 +28,7 @@ RASTREIO = {
     "google_ads_id": os.environ.get("GOOGLE_ADS_ID", ""),            # Google Ads (AW-XXXXXXXXX)
     "google_ads_conv": os.environ.get("GOOGLE_ADS_CONV_LABEL", ""),  # rótulo da conversão "clique no WhatsApp"
     "meta_pixel_id": os.environ.get("META_PIXEL_ID", ""),            # Pixel da Meta (Facebook/Instagram)
-    "google_verificacao": os.environ.get("GOOGLE_SITE_VERIFICATION", "").strip(),  # Search Console (meta tag)
+    "google_verificacao": os.environ.get("GOOGLE_SITE_VERIFICATION", "").strip("﻿ \t\r\n"),  # Search Console (meta tag)
 }
 
 
