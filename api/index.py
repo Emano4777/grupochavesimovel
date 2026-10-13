@@ -1,4 +1,5 @@
 import os
+import unicodedata
 from flask import Flask, render_template, request
 
 # Pastas
@@ -13,131 +14,141 @@ app = Flask(__name__, template_folder=TEMPLATES_DIR, static_folder=STATIC_DIR)
 # =========================
 MARCA_IMOVEIS = "Grupo Chaves Imóveis"
 WHATSAPP_PHONE = "+5517981359872"
-MENSAGEM_BASE_IMOVEIS = "Oi vi seu anuncio la no site sobre a casa a venda e tenho interesse"
+WHATSAPP_EXIBICAO = "(17) 98135-9872"
+MENSAGEM_BASE_IMOVEIS = "Olá! Vi o anúncio no site do Grupo Chaves Imóveis e tenho interesse"
+
+
+def fotos(slug, total):
+    """Fotos tratadas (com marca d'água) em static/imoveis/<slug>/01.jpg ... NN.jpg"""
+    return [f"/static/imoveis/{slug}/{i:02d}.jpg" for i in range(1, total + 1)]
+
 
 IMOVEIS = [
-    # UNIQUE
     {
-        "id": "unique-felicita-terreo",
-        "grupo": "Unique Felicità",
-        "categoria": "venda",
-        "titulo": "Apartamento • Unique Felicità (Térreo)",
-        "preco": "R$ 240.000,00",
-        "condominio": "R$ 350,00",
-        "localizacao": "Região dos Dahmas, represa, mercado Oba, próximo ao Mc Donald e ao Carrefour.",
-        "descricao_curta": "2 quartos (1 com ar), sala, cozinha com armário, banheiro, lavanderia e varanda.",
-        "itens": [
-            "Térreo","Sala","Cozinha c/ armário","Banheiro",
-            "Dois quartos (um com ar condicionado)","Lavanderia","Varanda",
-            "Vaga de garagem e visitantes","2 piscinas, 2 churrasqueiras, playground, bicicletário",
-            "Quadra de basquete, petplace","3 elevadores, mercadinho Stok, segurança 24h",
-        ],
-        "imagens": [
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757164161/WhatsApp_Image_2025-09-06_at_09.16.29_gchysq.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757164162/WhatsApp_Image_2025-09-06_at_09.16.28_1_ipfhfv.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757164454/WhatsApp_Image_2025-09-06_at_09.16.25_3_oppwqd.jpg",
-        ],
-    },
-    {
-        "id": "unique-felicita-12andar",
-        "grupo": "Unique Felicità",
-        "categoria": "venda",
-        "titulo": "Apartamento • Unique Felicità (12º Andar)",
-        "preco": "R$ 275.000,00",
-        "condominio": "R$ 350,00",
-        "localizacao": "Região dos Dahmas, represa, mercado Oba, próximo ao Mc Donald e ao Carrefour.",
-        "descricao_curta": "12º andar, 2 quartos, sala, cozinha com armário, banheiro, lavanderia e varanda.",
-        "itens": [
-            "12º Andar","Sala","Cozinha c/ armário","Banheiro",
-            "Dois quartos","Lavanderia","Varanda","Vaga de garagem e visitantes",
-            "2 piscinas, 2 churrasqueiras, playground, bicicletário",
-            "Quadra de basquete, petplace","3 elevadores, mercadinho Stok, segurança 24h",
-        ],
-        "imagens": [
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757164162/WhatsApp_Image_2025-09-06_at_09.16.25_1_r27fmu.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757164162/WhatsApp_Image_2025-09-06_at_09.16.26_xsfhrh.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757164161/WhatsApp_Image_2025-09-06_at_09.16.24_zlcpe8.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757164161/WhatsApp_Image_2025-09-06_at_09.16.25_t8f5wz.jpg"
-        ],
-    },
-    # FORA DO UNIQUE
-    {
-        "id": "rio-fiora-terreo-quintal",
-        "grupo": "Rio Fiora (Rios di Itália)",
-        "categoria": "aluguel",
-        "titulo": "Apartamento Térreo c/ Quintal • Cond. Rio Fiora",
-        "preco": "R$ 1.500,00 (aluguel – condomínio incluso)",
-        "condominio": "Incluso",
-        "localizacao": "Rua Patrícia Rodrigues Fontes, 605 – Próx. TV TEM, Compre Mix e Constroeste.",
-        "descricao_curta": "2 quartos, sala c/ ar, cozinha e banheiro com planejados + área privativa (quintal).",
-        "itens": [
-            "02 Quartos","01 Banheiro c/ box e planejados","Sala c/ ar condicionado",
-            "Cozinha c/ planejados","Área privativa (Quintal)","01 Vaga de garagem",
-            "Lazer completo no condomínio","Piscina, Playground, Quadra poliesportiva",
-            "Espaço gourmet, Câmeras","Portaria 24h, Acessibilidade",
-        ],
-        "imagens": [
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757536768/WhatsApp_Image_2025-09-06_at_11.07.43_k0bflf.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757536768/WhatsApp_Image_2025-09-06_at_11.07.43_1_yildfi.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757536768/WhatsApp_Image_2025-09-06_at_11.07.44_folbmy.jpg"
-        ],
-    },
-    {
-        "id": "casa-boa-vista-consolacao",
+        "id": "casa-boa-vista",
+        "tipo": "casa",
+        "valor": 540000,
         "grupo": "Boa Vista",
         "categoria": "venda",
-        "titulo": "Casa • Região do Boa Vista (Rua Consolação)",
-        "preco": "R$ 540.000,00 (financiável)",
+        "titulo": "Casa no Boa Vista",
+        "preco": "R$ 540.000,00",
+        "obs_preco": "Aceita troca",
         "condominio": "—",
-        "localizacao": "Próx. à Santa Casa e Menezes de Bezerra; mercados, escolas, farmácias e comércio.",
-        "descricao_curta": "152 m² construídos • 270 m² terreno • 3 qtos (1 suíte), 3 banheiros e 2 vagas.",
+        "localizacao": "Próximo ao Hospital Santa Casa, Bezerra de Menezes, padarias, mercados, farmácias, escolas, posto de saúde e restaurantes.",
+        "descricao_curta": "270 m² de terreno • 152 m² construídos • 3 quartos (1 suíte), 3 banheiros, área gourmet e garagem para 2 carros.",
+        "destaques": ["270 m² terreno", "152 m² construídos", "3 quartos", "2 vagas"],
         "itens": [
-            "03 Quartos c/ uma suíte","03 Banheiros","Sala ampla","Cozinha ampla",
-            "Área de lavanderia","02 Vagas de garagem","Jardim","Toda em Blindex",
-            "Porcelanato interno e externo","Portão eletrônico","Cerca elétrica e câmeras de segurança",
+            "Sala", "Cozinha", "Três banheiros", "Três quartos, sendo uma suíte",
+            "Lavanderia", "Vaga de garagem para dois carros", "Área gourmet", "Churrasqueira",
+            "Todo em porcelanato e pedra São Gabriel", "Cerca elétrica", "Portão eletrônico",
         ],
-        "imagens": [
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757537251/WhatsApp_Image_2025-09-10_at_15.24.24_1_eyopon.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757537245/WhatsApp_Image_2025-09-10_at_15.24.19_t6s0fi.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757537244/WhatsApp_Image_2025-09-10_at_15.24.21_1_wfbmfx.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757537244/WhatsApp_Image_2025-09-10_at_15.24.20_1_c5mxoo.jpg",
-            "https://res.cloudinary.com/dizfq460q/image/upload/v1757537244/WhatsApp_Image_2025-09-10_at_15.24.21_2_g2i5ul.jpg"
+        "imagens": fotos("casa-boa-vista", 19),
+    },
+    {
+        "id": "chacara-rio-preto",
+        "tipo": "chacara",
+        "valor": 630000,
+        "grupo": "Chácara",
+        "categoria": "venda",
+        "titulo": "Chácara entre Rio Preto e Engenheiro Schmidt",
+        "preco": "R$ 630.000,00",
+        "obs_preco": "",
+        "condominio": "—",
+        "localizacao": "Entre São José do Rio Preto e Engenheiro Schmidt.",
+        "descricao_curta": "Terreno de 1.000 m² com piscina, varanda ampla com churrasqueira e fogão a lenha, pomar e segurança completa.",
+        "destaques": ["1.000 m² terreno", "2 dormitórios", "Piscina", "8 câmeras"],
+        "itens": [
+            "Casa com 2 dormitórios, sendo 1 suíte com banheira",
+            "Sacada e armários embutidos", "2 banheiros, sala e cozinha",
+            "Varanda ampla com churrasqueira e fogão a lenha",
+            "Mesa de jantar grande de madeira", "Varanda dos fundos com mesa de sinuca",
+            "Piscina", "Janelas e portas todas de madeira",
+            "Pomar grande com diversos pés de frutas e flores",
+            "2 galinheiros e 2 quartinhos de despensa",
+            "Toda cercada, portão eletrônico, muros altos e cerca elétrica",
+            "Sistema com 8 câmeras de vigilância",
         ],
+        "imagens": fotos("chacara-rio-preto", 26),
+    },
+    {
+        "id": "unique-felicita-9andar",
+        "tipo": "apartamento",
+        "valor": 300000,
+        "grupo": "Unique Felicità",
+        "categoria": "venda",
+        "titulo": "Apartamento no Unique Felicità • 9º andar",
+        "preco": "R$ 300.000,00",
+        "obs_preco": "",
+        "condominio": "—",
+        "localizacao": "Região dos Dahmas, represa, mercado Oba, próximo ao Mc Donald e ao Carrefour.",
+        "descricao_curta": "9º andar com vista para a represa • 2 quartos, cozinha e banheiro com planejados, varanda e lazer completo.",
+        "destaques": ["9º andar", "2 quartos", "1 vaga", "Lazer completo"],
+        "itens": [
+            "9º andar", "Sala", "Cozinha com planejados", "Banheiro com planejados",
+            "Dois quartos", "Lavanderia", "Varanda", "Vaga de garagem e vaga de visitantes",
+            "Piscinas, churrasqueiras e playground", "Bicicletário, quadra de basquete e petplace",
+            "Três elevadores e mercadinho Stok", "Segurança 24h",
+        ],
+        "imagens": fotos("unique-felicita-9andar", 27),
     },
 ]
 
-def filtrar_imoveis(itens, q="", cat=""):
-    q = (q or "").strip().lower()
+TIPOS = {"casa": "Casa", "chacara": "Chácara", "apartamento": "Apartamento"}
+FAIXAS_PRECO = [  # (valor máximo, rótulo)
+    (350000, "Até R$ 350 mil"),
+    (600000, "Até R$ 600 mil"),
+    (1000000, "Até R$ 1 milhão"),
+]
+
+
+def sem_acento(txt):
+    return "".join(c for c in unicodedata.normalize("NFD", txt.lower()) if unicodedata.category(c) != "Mn")
+
+
+def filtrar_imoveis(itens, q="", cat="", tipo="", preco_max=""):
+    q = sem_acento((q or "").strip())
     cat = (cat or "").strip().lower()
+    tipo = (tipo or "").strip().lower()
+    try:
+        preco_max = int(preco_max)
+    except (TypeError, ValueError):
+        preco_max = 0
+
     def casa_match(i):
-        texto = " ".join([i["titulo"], i["localizacao"], i["descricao_curta"], " ".join(i["itens"])]).lower()
+        texto = sem_acento(" ".join([i["titulo"], i["grupo"], i["localizacao"], i["descricao_curta"], " ".join(i["itens"])]))
         ok_q = (q in texto) if q else True
         ok_cat = (i["categoria"] == cat) if cat in {"venda", "aluguel"} else True
-        return ok_q and ok_cat
+        ok_tipo = (i["tipo"] == tipo) if tipo in TIPOS else True
+        ok_preco = (i["valor"] <= preco_max) if preco_max else True
+        return ok_q and ok_cat and ok_tipo and ok_preco
     return [i for i in itens if casa_match(i)]
+
 
 @app.route("/")
 def imoveis_home():
     wa_base = f"https://api.whatsapp.com/send?phone={WHATSAPP_PHONE}&text="
-    grupos = sorted({i["grupo"] for i in IMOVEIS})
-    total_imoveis = len(IMOVEIS)
-    q = request.args.get("q", "")
-    cat = request.args.get("cat", "")
-    filtrados = filtrar_imoveis(IMOVEIS, q=q, cat=cat)
+    filtros = {k: request.args.get(k, "") for k in ("q", "cat", "tipo", "preco_max")}
+    filtrados = filtrar_imoveis(IMOVEIS, **filtros)
     total_venda = len([i for i in IMOVEIS if i["categoria"] == "venda"])
     total_aluguel = len([i for i in IMOVEIS if i["categoria"] == "aluguel"])
+    # só oferece no buscador os tipos que existem no catálogo
+    tipos_disponiveis = [(k, v, sum(1 for i in IMOVEIS if i["tipo"] == k)) for k, v in TIPOS.items()]
+    tipos_disponiveis = [t for t in tipos_disponiveis if t[2]]
     return render_template(
         "index.html",
         marca=MARCA_IMOVEIS,
+        whatsapp_exibicao=WHATSAPP_EXIBICAO,
         imoveis=filtrados,
         wa_base=wa_base,
         mensagem_base=MENSAGEM_BASE_IMOVEIS,
-        grupos=grupos,
-        total_imoveis=total_imoveis,
+        total_imoveis=len(IMOVEIS),
         total_venda=total_venda,
         total_aluguel=total_aluguel,
-        q=q,
-        cat=cat,
+        tipos=tipos_disponiveis,
+        tipos_nomes=TIPOS,
+        faixas=FAIXAS_PRECO,
+        filtros=filtros,
+        filtrando=any(filtros.values()),
     )
 
 # =========================
