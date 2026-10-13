@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Página não encontrada | {{ marca }}{% endblock %}
+{% block description %}Esta página não existe mais. Veja os imóveis à venda em São José do Rio Preto e região.{% endblock %}
+
+{% block content %}
+<main class="container py-5 text-center">
+  <i class="fa-solid fa-house-circle-xmark fa-3x mb-3" style="color:var(--gold)"></i>
+  <h1 class="serif h3">Página não encontrada</h1>
+  <p class="text-muted">Este imóvel pode já ter sido vendido. Veja as opções disponíveis:</p>
+  <a href="/" class="btn btn-gold rounded-pill px-4">Ver imóveis à venda</a>
+</main>
+{% endblock %}

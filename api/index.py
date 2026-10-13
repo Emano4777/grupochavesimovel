@@ -1,6 +1,8 @@
 import os
+import json
 import unicodedata
-from flask import Flask, render_template, request
+from datetime import date
+from flask import Flask, render_template, request, abort, Response
 
 # Pastas
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -13,9 +15,21 @@ app = Flask(__name__, template_folder=TEMPLATES_DIR, static_folder=STATIC_DIR)
 # PÁGINA DE IMÓVEIS (/)
 # =========================
 MARCA_IMOVEIS = "Grupo Chaves Imóveis"
+SITE_URL = "https://www.grupochavesbrasil.com.br"
+CIDADE = "São José do Rio Preto"
 WHATSAPP_PHONE = "+5517981359872"
 WHATSAPP_EXIBICAO = "(17) 98135-9872"
 MENSAGEM_BASE_IMOVEIS = "Olá! Vi o anúncio no site do Grupo Chaves Imóveis e tenho interesse"
+ATUALIZADO_EM = "2026-10-13"  # data de atualização dos anúncios (sitemap)
+
+# IDs de rastreamento: configurar nas variáveis de ambiente do Vercel quando as contas existirem.
+RASTREIO = {
+    "ga4_id": os.environ.get("GA4_ID", ""),                          # Google Analytics 4 (G-XXXXXXX)
+    "google_ads_id": os.environ.get("GOOGLE_ADS_ID", ""),            # Google Ads (AW-XXXXXXXXX)
+    "google_ads_conv": os.environ.get("GOOGLE_ADS_CONV_LABEL", ""),  # rótulo da conversão "clique no WhatsApp"
+    "meta_pixel_id": os.environ.get("META_PIXEL_ID", ""),            # Pixel da Meta (Facebook/Instagram)
+    "google_verificacao": os.environ.get("GOOGLE_SITE_VERIFICATION", ""),  # Search Console (meta tag)
+}
 
 
 def fotos(slug, total):
@@ -29,14 +43,18 @@ IMOVEIS = [
         "tipo": "casa",
         "valor": 540000,
         "grupo": "Boa Vista",
+        "bairro": "Boa Vista",
         "categoria": "venda",
         "titulo": "Casa no Boa Vista",
+        "seo_titulo": "Casa à venda no Boa Vista, São José do Rio Preto – 3 quartos, R$ 540 mil",
+        "seo_descricao": "Casa à venda no bairro Boa Vista em São José do Rio Preto, perto da Santa Casa: 270 m² de terreno, 152 m² construídos, 3 quartos (1 suíte) e área gourmet. R$ 540 mil, aceita troca.",
         "preco": "R$ 540.000,00",
         "obs_preco": "Aceita troca",
         "condominio": "—",
         "localizacao": "Próximo ao Hospital Santa Casa, Bezerra de Menezes, padarias, mercados, farmácias, escolas, posto de saúde e restaurantes.",
         "descricao_curta": "270 m² de terreno • 152 m² construídos • 3 quartos (1 suíte), 3 banheiros, área gourmet e garagem para 2 carros.",
         "destaques": ["270 m² terreno", "152 m² construídos", "3 quartos", "2 vagas"],
+        "quartos": 3, "banheiros": 3, "area_m2": 152, "terreno_m2": 270,
         "itens": [
             "Sala", "Cozinha", "Três banheiros", "Três quartos, sendo uma suíte",
             "Lavanderia", "Vaga de garagem para dois carros", "Área gourmet", "Churrasqueira",
@@ -49,14 +67,18 @@ IMOVEIS = [
         "tipo": "chacara",
         "valor": 630000,
         "grupo": "Chácara",
+        "bairro": "Engenheiro Schmidt",
         "categoria": "venda",
         "titulo": "Chácara entre Rio Preto e Engenheiro Schmidt",
+        "seo_titulo": "Chácara à venda em Rio Preto / Engenheiro Schmidt – 1.000 m² com piscina, R$ 630 mil",
+        "seo_descricao": "Chácara à venda entre São José do Rio Preto e Engenheiro Schmidt: 1.000 m², piscina, varanda com churrasqueira e fogão a lenha, suíte com banheira, pomar e 8 câmeras. R$ 630 mil.",
         "preco": "R$ 630.000,00",
         "obs_preco": "",
         "condominio": "—",
         "localizacao": "Entre São José do Rio Preto e Engenheiro Schmidt.",
         "descricao_curta": "Terreno de 1.000 m² com piscina, varanda ampla com churrasqueira e fogão a lenha, pomar e segurança completa.",
         "destaques": ["1.000 m² terreno", "2 dormitórios", "Piscina", "8 câmeras"],
+        "quartos": 2, "banheiros": 2, "area_m2": None, "terreno_m2": 1000,
         "itens": [
             "Casa com 2 dormitórios, sendo 1 suíte com banheira",
             "Sacada e armários embutidos", "2 banheiros, sala e cozinha",
@@ -75,14 +97,18 @@ IMOVEIS = [
         "tipo": "apartamento",
         "valor": 300000,
         "grupo": "Unique Felicità",
+        "bairro": "Região do Damha",
         "categoria": "venda",
         "titulo": "Apartamento no Unique Felicità • 9º andar",
+        "seo_titulo": "Apartamento à venda no Unique Felicità, Rio Preto – 9º andar, 2 quartos, R$ 300 mil",
+        "seo_descricao": "Apartamento à venda no condomínio Unique Felicità em São José do Rio Preto (região do Damha e da represa): 9º andar com vista, 2 quartos, planejados, lazer completo e segurança 24h. R$ 300 mil.",
         "preco": "R$ 300.000,00",
         "obs_preco": "",
         "condominio": "—",
         "localizacao": "Região dos Dahmas, represa, mercado Oba, próximo ao Mc Donald e ao Carrefour.",
         "descricao_curta": "9º andar com vista para a represa • 2 quartos, cozinha e banheiro com planejados, varanda e lazer completo.",
         "destaques": ["9º andar", "2 quartos", "1 vaga", "Lazer completo"],
+        "quartos": 2, "banheiros": 1, "area_m2": None, "terreno_m2": None,
         "itens": [
             "9º andar", "Sala", "Cozinha com planejados", "Banheiro com planejados",
             "Dois quartos", "Lavanderia", "Varanda", "Vaga de garagem e vaga de visitantes",
@@ -92,8 +118,10 @@ IMOVEIS = [
         "imagens": fotos("unique-felicita-9andar", 27),
     },
 ]
+IMOVEIS_POR_ID = {i["id"]: i for i in IMOVEIS}
 
 TIPOS = {"casa": "Casa", "chacara": "Chácara", "apartamento": "Apartamento"}
+TIPOS_SCHEMA = {"casa": "SingleFamilyResidence", "chacara": "House", "apartamento": "Apartment"}
 FAIXAS_PRECO = [  # (valor máximo, rótulo)
     (350000, "Até R$ 350 mil"),
     (600000, "Até R$ 600 mil"),
@@ -115,7 +143,7 @@ def filtrar_imoveis(itens, q="", cat="", tipo="", preco_max=""):
         preco_max = 0
 
     def casa_match(i):
-        texto = sem_acento(" ".join([i["titulo"], i["grupo"], i["localizacao"], i["descricao_curta"], " ".join(i["itens"])]))
+        texto = sem_acento(" ".join([i["titulo"], i["grupo"], i["bairro"], i["localizacao"], i["descricao_curta"], " ".join(i["itens"])]))
         ok_q = (q in texto) if q else True
         ok_cat = (i["categoria"] == cat) if cat in {"venda", "aluguel"} else True
         ok_tipo = (i["tipo"] == tipo) if tipo in TIPOS else True
@@ -124,9 +152,65 @@ def filtrar_imoveis(itens, q="", cat="", tipo="", preco_max=""):
     return [i for i in itens if casa_match(i)]
 
 
+def schema_empresa():
+    return {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": MARCA_IMOVEIS,
+        "url": SITE_URL,
+        "logo": f"{SITE_URL}/static/logo.png",
+        "image": f"{SITE_URL}/static/og-image.jpg",
+        "telephone": WHATSAPP_PHONE,
+        "address": {"@type": "PostalAddress", "addressLocality": CIDADE, "addressRegion": "SP", "addressCountry": "BR"},
+        "areaServed": [{"@type": "City", "name": c} for c in (CIDADE, "Mirassol", "Bady Bassitt", "Cedral", "Engenheiro Schmidt")],
+    }
+
+
+def schema_imovel(i):
+    imovel = {
+        "@type": TIPOS_SCHEMA.get(i["tipo"], "House"),
+        "name": i["titulo"],
+        "address": {"@type": "PostalAddress", "addressLocality": CIDADE, "addressRegion": "SP", "addressCountry": "BR"},
+        "numberOfRooms": i.get("quartos"),
+        "numberOfBathroomsTotal": i.get("banheiros"),
+    }
+    if i.get("area_m2"):
+        imovel["floorSize"] = {"@type": "QuantitativeValue", "value": i["area_m2"], "unitCode": "MTK"}
+    return {
+        "@context": "https://schema.org",
+        "@type": "RealEstateListing",
+        "name": i["seo_titulo"],
+        "description": i["seo_descricao"],
+        "url": f"{SITE_URL}/imovel/{i['id']}",
+        "image": [SITE_URL + u for u in i["imagens"][:6]],
+        "datePosted": ATUALIZADO_EM,
+        "offers": {
+            "@type": "Offer",
+            "price": i["valor"],
+            "priceCurrency": "BRL",
+            "availability": "https://schema.org/InStock",
+            "seller": {"@type": "RealEstateAgent", "name": MARCA_IMOVEIS, "telephone": WHATSAPP_PHONE},
+        },
+        "about": imovel,
+    }
+
+
+@app.context_processor
+def contexto_global():
+    return {
+        "marca": MARCA_IMOVEIS,
+        "site_url": SITE_URL,
+        "whatsapp_exibicao": WHATSAPP_EXIBICAO,
+        "wa_base": f"https://api.whatsapp.com/send?phone={WHATSAPP_PHONE}&text=",
+        "mensagem_base": MENSAGEM_BASE_IMOVEIS,
+        "rastreio": RASTREIO,
+        "tipos_nomes": TIPOS,
+        "ano": date.today().year,
+    }
+
+
 @app.route("/")
 def imoveis_home():
-    wa_base = f"https://api.whatsapp.com/send?phone={WHATSAPP_PHONE}&text="
     filtros = {k: request.args.get(k, "") for k in ("q", "cat", "tipo", "preco_max")}
     filtrados = filtrar_imoveis(IMOVEIS, **filtros)
     total_venda = len([i for i in IMOVEIS if i["categoria"] == "venda"])
@@ -134,22 +218,57 @@ def imoveis_home():
     # só oferece no buscador os tipos que existem no catálogo
     tipos_disponiveis = [(k, v, sum(1 for i in IMOVEIS if i["tipo"] == k)) for k, v in TIPOS.items()]
     tipos_disponiveis = [t for t in tipos_disponiveis if t[2]]
+    jsonld = [schema_empresa()] + [schema_imovel(i) for i in IMOVEIS]
     return render_template(
         "index.html",
-        marca=MARCA_IMOVEIS,
-        whatsapp_exibicao=WHATSAPP_EXIBICAO,
         imoveis=filtrados,
-        wa_base=wa_base,
-        mensagem_base=MENSAGEM_BASE_IMOVEIS,
         total_imoveis=len(IMOVEIS),
         total_venda=total_venda,
         total_aluguel=total_aluguel,
         tipos=tipos_disponiveis,
-        tipos_nomes=TIPOS,
         faixas=FAIXAS_PRECO,
         filtros=filtros,
         filtrando=any(filtros.values()),
+        jsonld=json.dumps(jsonld, ensure_ascii=False),
     )
+
+
+@app.route("/imovel/<id_imovel>")
+def imovel_detalhe(id_imovel):
+    imovel = IMOVEIS_POR_ID.get(id_imovel)
+    if not imovel:
+        abort(404)
+    outros = [i for i in IMOVEIS if i["id"] != id_imovel]
+    jsonld = [schema_empresa(), schema_imovel(imovel), {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Imóveis", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": imovel["titulo"], "item": f"{SITE_URL}/imovel/{imovel['id']}"},
+        ],
+    }]
+    return render_template("imovel.html", imovel=imovel, outros=outros, jsonld=json.dumps(jsonld, ensure_ascii=False))
+
+
+@app.route("/robots.txt")
+def robots():
+    txt = f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n"
+    return Response(txt, mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap():
+    urls = [(SITE_URL + "/", "1.0")] + [(f"{SITE_URL}/imovel/{i['id']}", "0.9") for i in IMOVEIS]
+    corpo = "".join(
+        f"<url><loc>{u}</loc><lastmod>{ATUALIZADO_EM}</lastmod><priority>{p}</priority></url>" for u, p in urls
+    )
+    xml = f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{corpo}</urlset>'
+    return Response(xml, mimetype="application/xml")
+
+
+@app.errorhandler(404)
+def nao_encontrado(e):
+    return render_template("404.html"), 404
 
 # =========================
 # PÁGINA RECLAMEVOO (/voo)

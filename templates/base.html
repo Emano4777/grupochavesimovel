@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% block title %}{{ marca }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{% endblock %}">
+  <link rel="canonical" href="{% block canonical %}{{ site_url }}/{% endblock %}">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="geo.region" content="BR-SP">
+  <meta name="geo.placename" content="São José do Rio Preto">
+  {% if rastreio.google_verificacao %}<meta name="google-site-verification" content="{{ rastreio.google_verificacao }}">{% endif %}
+
+  <!-- Favicon / ícones -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+
+  <!-- Prévia ao compartilhar (WhatsApp, Facebook, Instagram...) -->
+  <meta property="og:site_name" content="{{ marca }}">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="{{ self.title() }}">
+  <meta property="og:description" content="{{ self.description() }}">
+  <meta property="og:image" content="{% block og_image %}{{ site_url }}/static/og-image.jpg{% endblock %}">
+  <meta property="og:url" content="{{ self.canonical() }}">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+
+  {% if jsonld %}<script type="application/ld+json">{{ jsonld|safe }}</script>{% endif %}
+
+  {# ===== Rastreamento (só carrega quando os IDs estão configurados no Vercel) ===== #}
+  {% set gtag_id = rastreio.ga4_id or rastreio.google_ads_id %}
+  {% if gtag_id %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ gtag_id }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    {% if rastreio.ga4_id %}gtag('config', '{{ rastreio.ga4_id }}');{% endif %}
+    {% if rastreio.google_ads_id %}gtag('config', '{{ rastreio.google_ads_id }}');{% endif %}
+  </script>
+  {% endif %}
+  {% if rastreio.meta_pixel_id %}
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '{{ rastreio.meta_pixel_id }}');
+    fbq('track', 'PageView');
+  </script>
+  {% endif %}
+
+  <style>
+    :root{
+      --dark:#0e1214; --dark-2:#161c20; --dark-3:#1d252a; --gold:#d4a62a; --gold-l:#f7e08a; --gold-d:#a8781b;
+      --gold-grad:linear-gradient(180deg,#f7e08a,#d4a62a 55%,#a8781b);
+      --bg:#f6f4ef; --ink:#1f2937; --muted:#6b7280; --line:#e9e4d8;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    a{color:inherit}
+    .gold-text{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .serif{font-family:Cinzel,Georgia,serif;font-weight:700}
+    .eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:600;color:var(--gold-d)}
+    .btn-gold{background:var(--gold-grad);border:0;color:#1a1408;font-weight:600}
+    .btn-gold:hover,.btn-gold:focus{filter:brightness(1.07);color:#1a1408}
+    .btn-wa{background:#25d366;border:0;color:#fff;font-weight:600}
+    .btn-wa:hover{background:#1ebe5b;color:#fff}
+
+    /* ===== Navbar ===== */
+    .topbar{background:var(--dark);border-bottom:1px solid rgba(212,166,42,.35);position:sticky;top:0;z-index:1030}
+    .topbar .container{display:flex;align-items:center;gap:16px;min-height:66px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .brand img{height:48px;width:48px}
+    .brand-text{font-family:Cinzel,Georgia,serif;line-height:1}
+    .brand-text small{display:block;font-size:11px;letter-spacing:2px;font-weight:600}
+    .brand-text strong{display:block;font-size:22px;letter-spacing:1.5px;font-weight:700}
+    .menu{display:flex;gap:26px;margin-left:auto}
+    .menu a{color:#cfd5d9;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:.3px}
+    .menu a:hover{color:var(--gold-l)}
+    .topbar .btn-wa{border-radius:999px;padding:8px 16px;font-size:14px}
+    @media (max-width:768px){ .menu{display:none} .topbar .btn-wa{margin-left:auto} }
+    @media (max-width:400px){ .brand-text strong{font-size:18px} .topbar .btn-wa span{display:none} }
+
+    /* ===== Cards de imóvel ===== */
+    .card-imovel{border:0;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(15,20,25,.08);transition:transform .2s,box-shadow .2s;background:#fff}
+    .card-imovel:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(15,20,25,.14)}
+    .card-imovel .carousel-item img{height:320px;object-fit:cover}
+    .foto-count{position:absolute;left:12px;bottom:12px;z-index:3;background:rgba(14,18,20,.75);color:#fff;border-radius:999px;padding:3px 10px;font-size:12px}
+    .tag-tipo{position:absolute;left:12px;top:12px;z-index:3;background:var(--gold-grad);color:#1a1408;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
+    .badge-grupo{background:#eef0f2;color:#374151;font-weight:500}
+    .preco{font-size:28px;font-weight:700;color:#1a1408;line-height:1}
+    .obs-preco{background:#fff6dc;color:#8a6414;border:1px solid #f0d998;border-radius:999px;font-size:12px;padding:2px 10px;font-weight:600}
+    .chips{display:flex;flex-wrap:wrap;gap:6px}
+    .chip{background:var(--bg);border:1px solid #ebe5d6;border-radius:8px;padding:4px 10px;font-size:13px;color:#4b5563}
+    .itens{columns:2;column-gap:20px}
+    .itens li{break-inside:avoid;margin-bottom:4px}
+    .itens li i{color:var(--gold)}
+    .titulo-link{text-decoration:none}
+    .titulo-link:hover{color:var(--gold-d)}
+    @media (max-width:576px){ .card-imovel .carousel-item img{height:240px} .itens{columns:1} }
+
+    /* ===== Rodapé ===== */
+    footer{background:var(--dark);color:#9aa4ab;border-top:1px solid rgba(212,166,42,.3)}
+    footer a{color:var(--gold-l);text-decoration:none}
+
+    /* WhatsApp flutuante */
+    .wa-float{position:fixed;right:18px;bottom:18px;z-index:1000;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;
+      display:grid;place-items:center;font-size:30px;box-shadow:0 8px 24px rgba(0,0,0,.25);text-decoration:none;transition:transform .15s}
+    .wa-float:hover{color:#fff;transform:scale(1.06)}
+    {% block css %}{% endblock %}
+  </style>
+  <meta name="theme-color" content="#0e1214"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/static/logo-emblema.png" alt="{{ marca }}">
+      <span class="brand-text gold-text"><small>GRUPO CHAVES</small><strong>IMÓVEIS</strong></span>
+    </a>
+    <nav class="menu">
+      <a href="/#busca">Buscar</a>
+      <a href="/#listagem">Imóveis</a>
+      <a href="/#sobre">Por que nós</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a href="#" class="btn btn-wa" onclick="return contatoWhats('', '');"><i class="fab fa-whatsapp me-1"></i><span>Fale conosco</span></a>
+  </div>
+</header>
+
+{% block content %}{% endblock %}
+
+<footer class="py-5" id="contato">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <div class="col-md-5 d-flex align-items-center gap-3">
+        <img src="/static/logo-emblema.png" alt="" width="64" height="64">
+        <div>
+          <div class="brand-text gold-text"><small>GRUPO CHAVES</small><strong>IMÓVEIS</strong></div>
+          <div class="small mt-2">Imóveis à venda em São José do Rio Preto e região</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-1"><i class="fab fa-whatsapp me-2"></i><a href="#" onclick="return contatoWhats('', '');">{{ whatsapp_exibicao }}</a></div>
+        <div><i class="fa-solid fa-globe me-2"></i><a href="{{ site_url }}">grupochavesbrasil.com.br</a></div>
+      </div>
+      <div class="col-md-3 text-md-end small">© {{ ano }} {{ marca }}</div>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="wa-float" aria-label="Falar no WhatsApp" onclick="return contatoWhats('', '');"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+  const WA_BASE = "{{ wa_base }}";
+  const MSG_BASE = "{{ mensagem_base }}";
+  const ADS_CONV = "{{ (rastreio.google_ads_id ~ '/' ~ rastreio.google_ads_conv) if (rastreio.google_ads_id and rastreio.google_ads_conv) else '' }}";
+
+  // Clique no WhatsApp = conversão (GA4, Google Ads e Pixel da Meta, quando configurados)
+  function registrarLead(titulo){
+    const item = titulo || 'contato geral';
+    try {
+      if (window.gtag){
+        gtag('event', 'generate_lead', {method: 'whatsapp', item_name: item});
+        if (ADS_CONV) gtag('event', 'conversion', {send_to: ADS_CONV});
+      }
+      if (window.fbq) fbq('track', 'Contact', {content_name: item});
+    } catch(e){}
+  }
+  function contatoWhats(titulo, preco, msg){
+    registrarLead(titulo);
+    const texto = msg ? msg : (titulo ? `${MSG_BASE}. Imóvel: ${titulo} | Preço: ${preco}` : MSG_BASE + '.');
+    window.open(WA_BASE + encodeURIComponent(texto), '_blank');
+    return false;
+  }
+  async function compartilhar(titulo, preco, url){
+    const shareData = { title: titulo, text: `${titulo} – ${preco}`, url: url || window.location.href };
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else {
+        await navigator.clipboard.writeText(`${shareData.text} | ${shareData.url}`);
+        alert('Link copiado!');
+      }
+    } catch(e){}
+    return false;
+  }
+</script>
+{% block scripts %}{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

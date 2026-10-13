@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}{{ imovel.seo_titulo }} | {{ marca }}{% endblock %}
+{% block description %}{{ imovel.seo_descricao }}{% endblock %}
+{% block canonical %}{{ site_url }}/imovel/{{ imovel.id }}{% endblock %}
+{% block og_image %}{{ site_url }}{{ imovel.imagens[0] }}{% endblock %}
+
+{% block css %}
+    .breadcrumb-mini{font-size:13px;color:var(--muted)}
+    .breadcrumb-mini a{text-decoration:none;color:var(--muted)}
+    .breadcrumb-mini a:hover{color:var(--gold-d)}
+    .galeria{border-radius:18px;overflow:hidden;background:#000;box-shadow:0 10px 30px rgba(15,20,25,.1)}
+    .galeria .carousel-item img{width:100%;aspect-ratio:16/10;object-fit:contain;background:#0e1214}
+    .thumbs{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 4px;scrollbar-width:thin}
+    .thumbs button{flex:0 0 auto;border:2px solid transparent;border-radius:10px;padding:0;overflow:hidden;opacity:.7;background:none}
+    .thumbs button.active,.thumbs button:hover{border-color:var(--gold);opacity:1}
+    .thumbs img{width:92px;height:64px;object-fit:cover;display:block}
+    .painel{background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(15,20,25,.08);padding:26px;position:sticky;top:86px}
+    .painel h1{font-size:24px;font-weight:600;line-height:1.3}
+    .bloco{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(15,20,25,.05);padding:26px}
+    @media (min-width:992px){
+      .layout-imovel{display:grid;grid-template-columns:2fr 1fr;grid-template-areas:"g p" "d p";column-gap:24px;row-gap:16px;margin:0}
+      .layout-imovel>*{width:auto;max-width:none;padding:0;margin:0}
+      .area-galeria{grid-area:g}.area-painel{grid-area:p}.area-detalhes{grid-area:d}
+    }
+    .barra-mobile{display:none}
+    @media (max-width:991px){
+      .painel{position:static}
+      .barra-mobile{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:1020;background:#fff;border-top:1px solid var(--line);
+        padding:10px 14px;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 -6px 20px rgba(0,0,0,.08)}
+      .barra-mobile .preco{font-size:20px}
+      .wa-float{display:none}
+      body{padding-bottom:72px}
+    }
+    .mini-card{display:flex;gap:14px;background:#fff;border-radius:14px;overflow:hidden;text-decoration:none;box-shadow:0 6px 20px rgba(15,20,25,.06);transition:.15s}
+    .mini-card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(15,20,25,.12)}
+    .mini-card img{width:150px;height:110px;object-fit:cover}
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <nav class="breadcrumb-mini mb-3" aria-label="Navegação">
+    <a href="/">Imóveis</a> <i class="fa-solid fa-chevron-right mx-1" style="font-size:10px"></i>
+    <a href="/?tipo={{ imovel.tipo }}#listagem">{{ tipos_nomes.get(imovel.tipo) }}</a> <i class="fa-solid fa-chevron-right mx-1" style="font-size:10px"></i>
+    <span>{{ imovel.titulo }}</span>
+  </nav>
+
+  <div class="row g-4 layout-imovel">
+    <!-- Galeria -->
+    <div class="col-lg-8 area-galeria">
+      <div id="galeria" class="carousel slide galeria">
+        <div class="carousel-inner">
+          {% for url in imovel.imagens %}
+          <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+            <img src="{{ url }}" alt="{{ imovel.titulo }} em São José do Rio Preto – foto {{ loop.index }}" {% if loop.index0 > 0 %}loading="lazy"{% endif %}>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#galeria" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#galeria" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Próximo</span>
+        </button>
+      </div>
+      <div class="thumbs" id="thumbs">
+        {% for url in imovel.imagens %}
+        <button type="button" data-bs-target="#galeria" data-bs-slide-to="{{ loop.index0 }}" class="{% if loop.index0 == 0 %}active{% endif %}" aria-label="Foto {{ loop.index }}">
+          <img src="{{ url }}" alt="" loading="lazy">
+        </button>
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <!-- Painel de contato -->
+    <div class="col-lg-4 area-painel">
+      <aside class="painel">
+        <span class="tag-tipo position-static d-inline-block mb-3">{{ tipos_nomes.get(imovel.tipo) }} • {{ 'Venda' if imovel.categoria=='venda' else 'Aluguel' }}</span>
+        <h1>{{ imovel.titulo }}</h1>
+        <p class="text-muted small mb-3"><i class="fa-solid fa-location-dot me-1" style="color:var(--gold)"></i>{{ imovel.bairro }} • São José do Rio Preto – SP</p>
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <div class="preco">{{ imovel.preco }}</div>
+          {% if imovel.obs_preco %}<span class="obs-preco">{{ imovel.obs_preco }}</span>{% endif %}
+        </div>
+        {% if imovel.destaques %}
+        <div class="chips mb-4">
+          {% for d in imovel.destaques %}<span class="chip">{{ d }}</span>{% endfor %}
+        </div>
+        {% endif %}
+        <a href="#" class="btn btn-wa btn-lg w-100 mb-2" onclick="return contatoWhats('{{ imovel.titulo|e }}', '{{ imovel.preco|e }}');">
+          <i class="fab fa-whatsapp me-2"></i>Agendar visita pelo WhatsApp
+        </a>
+        <a href="#" class="btn btn-outline-dark w-100" onclick="return compartilhar('{{ imovel.titulo|e }}', '{{ imovel.preco|e }}');">
+          <i class="fa-solid fa-share-nodes me-1"></i> Compartilhar
+        </a>
+        <p class="small text-muted text-center mt-3 mb-0">Atendimento rápido: {{ whatsapp_exibicao }}</p>
+      </aside>
+    </div>
+
+    <!-- Detalhes -->
+    <div class="col-lg-8 area-detalhes">
+      <div class="bloco">
+        <h2 class="serif h5 mb-3">Sobre o imóvel</h2>
+        <p>{{ imovel.descricao_curta }}</p>
+        <h3 class="h6 fw-semibold mt-4 mb-3">Características</h3>
+        <ul class="list-unstyled text-secondary itens mb-0">
+          {% for item in imovel.itens %}
+          <li><i class="fa-solid fa-check me-1"></i>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="bloco mt-3">
+        <h2 class="serif h5 mb-3">Localização</h2>
+        <p class="mb-1"><i class="fa-solid fa-location-dot me-2" style="color:var(--gold)"></i>{{ imovel.localizacao }}</p>
+        <p class="text-muted small mb-0">São José do Rio Preto – SP. O endereço completo é informado no agendamento da visita.</p>
+      </div>
+    </div>
+  </div>
+
+  {% if outros %}
+  <section class="mt-5">
+    <div class="eyebrow mb-1">Veja também</div>
+    <h2 class="serif h4 mb-3">Outros imóveis à venda em Rio Preto</h2>
+    <div class="row g-3">
+      {% for o in outros %}
+      <div class="col-md-6">
+        <a class="mini-card" href="/imovel/{{ o.id }}">
+          <img src="{{ o.imagens[0] }}" alt="{{ o.titulo }}" loading="lazy">
+          <div class="py-3 pe-3">
+            <div class="small text-muted">{{ tipos_nomes.get(o.tipo) }} • {{ o.bairro }}</div>
+            <div class="fw-semibold">{{ o.titulo }}</div>
+            <div class="fw-bold mt-1">{{ o.preco }}</div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+
+<!-- Barra fixa no celular -->
+<div class="barra-mobile">
+  <div>
+    <div class="small text-muted" style="line-height:1">{{ tipos_nomes.get(imovel.tipo) }}</div>
+    <div class="preco">{{ imovel.preco }}</div>
+  </div>
+  <a href="#" class="btn btn-wa" onclick="return contatoWhats('{{ imovel.titulo|e }}', '{{ imovel.preco|e }}');"><i class="fab fa-whatsapp me-1"></i>Agendar visita</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // miniaturas acompanham a foto atual
+  document.getElementById('galeria').addEventListener('slid.bs.carousel', function(e){
+    document.querySelectorAll('#thumbs button').forEach(function(b, i){
+      b.classList.toggle('active', i === e.to);
+      if (i === e.to) b.scrollIntoView({block: 'nearest', inline: 'center', behavior: 'smooth'});
+    });
+  });
+  try { if (window.fbq) fbq('track', 'ViewContent', {content_name: {{ imovel.titulo|tojson }}, value: {{ imovel.valor }}, currency: 'BRL'}); } catch(e){}
+  try { if (window.gtag) gtag('event', 'view_item', {items: [{item_id: {{ imovel.id|tojson }}, item_name: {{ imovel.titulo|tojson }}, price: {{ imovel.valor }}}]}); } catch(e){}
+</script>
+{% endblock %}
