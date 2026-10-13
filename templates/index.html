@@ -174,7 +174,7 @@
             <div class="preco">{{ imovel.preco }}</div>
             {% if imovel.obs_preco %}<span class="obs-preco">{{ imovel.obs_preco }}</span>{% endif %}
             {% if imovel.condominio and imovel.condominio != '—' %}
-              <div class="text-secondary small">Condomínio {{ imovel.condominio }}</div>
+              <div class="text-secondary small">Condomínio {{ imovel.condominio }}{% if imovel.iptu %} • IPTU {{ imovel.iptu }}{% endif %}</div>
             {% endif %}
           </div>
 

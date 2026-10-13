@@ -83,6 +83,12 @@
           <div class="preco">{{ imovel.preco }}</div>
           {% if imovel.obs_preco %}<span class="obs-preco">{{ imovel.obs_preco }}</span>{% endif %}
         </div>
+        {% if (imovel.condominio and imovel.condominio != '—') or imovel.iptu %}
+        <p class="small text-secondary mb-3">
+          {% if imovel.condominio and imovel.condominio != '—' %}Condomínio <strong>{{ imovel.condominio }}</strong>{% endif %}
+          {% if imovel.iptu %} • IPTU <strong>{{ imovel.iptu }}</strong>{% endif %}
+        </p>
+        {% endif %}
         {% if imovel.destaques %}
         <div class="chips mb-4">
           {% for d in imovel.destaques %}<span class="chip">{{ d }}</span>{% endfor %}

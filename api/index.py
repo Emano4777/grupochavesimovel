@@ -28,7 +28,7 @@ RASTREIO = {
     "google_ads_id": os.environ.get("GOOGLE_ADS_ID", ""),            # Google Ads (AW-XXXXXXXXX)
     "google_ads_conv": os.environ.get("GOOGLE_ADS_CONV_LABEL", ""),  # rótulo da conversão "clique no WhatsApp"
     "meta_pixel_id": os.environ.get("META_PIXEL_ID", ""),            # Pixel da Meta (Facebook/Instagram)
-    "google_verificacao": os.environ.get("GOOGLE_SITE_VERIFICATION", ""),  # Search Console (meta tag)
+    "google_verificacao": os.environ.get("GOOGLE_SITE_VERIFICATION", "").strip(),  # Search Console (meta tag)
 }
 
 
@@ -47,9 +47,9 @@ IMOVEIS = [
         "categoria": "venda",
         "titulo": "Casa no Boa Vista",
         "seo_titulo": "Casa à venda no Boa Vista, São José do Rio Preto – 3 quartos, R$ 540 mil",
-        "seo_descricao": "Casa à venda no bairro Boa Vista em São José do Rio Preto, perto da Santa Casa: 270 m² de terreno, 152 m² construídos, 3 quartos (1 suíte) e área gourmet. R$ 540 mil, aceita troca.",
+        "seo_descricao": "Casa à venda no bairro Boa Vista em São José do Rio Preto, perto da Santa Casa: 270 m² de terreno, 152 m² construídos, 3 quartos (1 suíte) e área gourmet. R$ 540 mil, aceita troca e financiamento.",
         "preco": "R$ 540.000,00",
-        "obs_preco": "Aceita troca",
+        "obs_preco": "Aceita troca e financiamento",
         "condominio": "—",
         "localizacao": "Próximo ao Hospital Santa Casa, Bezerra de Menezes, padarias, mercados, farmácias, escolas, posto de saúde e restaurantes.",
         "descricao_curta": "270 m² de terreno • 152 m² construídos • 3 quartos (1 suíte), 3 banheiros, área gourmet e garagem para 2 carros.",
@@ -59,6 +59,7 @@ IMOVEIS = [
             "Sala", "Cozinha", "Três banheiros", "Três quartos, sendo uma suíte",
             "Lavanderia", "Vaga de garagem para dois carros", "Área gourmet", "Churrasqueira",
             "Todo em porcelanato e pedra São Gabriel", "Cerca elétrica", "Portão eletrônico",
+            "Aceita financiamento e troca",
         ],
         "imagens": fotos("casa-boa-vista", 19),
     },
@@ -71,9 +72,9 @@ IMOVEIS = [
         "categoria": "venda",
         "titulo": "Chácara entre Rio Preto e Engenheiro Schmidt",
         "seo_titulo": "Chácara à venda em Rio Preto / Engenheiro Schmidt – 1.000 m² com piscina, R$ 630 mil",
-        "seo_descricao": "Chácara à venda entre São José do Rio Preto e Engenheiro Schmidt: 1.000 m², piscina, varanda com churrasqueira e fogão a lenha, suíte com banheira, pomar e 8 câmeras. R$ 630 mil.",
+        "seo_descricao": "Chácara à venda entre São José do Rio Preto e Engenheiro Schmidt: 1.000 m², piscina, varanda com churrasqueira e fogão a lenha, suíte com banheira e pomar. R$ 630 mil, aceita financiamento.",
         "preco": "R$ 630.000,00",
-        "obs_preco": "",
+        "obs_preco": "Aceita financiamento",
         "condominio": "—",
         "localizacao": "Entre São José do Rio Preto e Engenheiro Schmidt.",
         "descricao_curta": "Terreno de 1.000 m² com piscina, varanda ampla com churrasqueira e fogão a lenha, pomar e segurança completa.",
@@ -89,6 +90,7 @@ IMOVEIS = [
             "2 galinheiros e 2 quartinhos de despensa",
             "Toda cercada, portão eletrônico, muros altos e cerca elétrica",
             "Sistema com 8 câmeras de vigilância",
+            "Aceita financiamento",
         ],
         "imagens": fotos("chacara-rio-preto", 26),
     },
@@ -101,10 +103,11 @@ IMOVEIS = [
         "categoria": "venda",
         "titulo": "Apartamento no Unique Felicità • 9º andar",
         "seo_titulo": "Apartamento à venda no Unique Felicità, Rio Preto – 9º andar, 2 quartos, R$ 300 mil",
-        "seo_descricao": "Apartamento à venda no condomínio Unique Felicità em São José do Rio Preto (região do Damha e da represa): 9º andar com vista, 2 quartos, planejados, lazer completo e segurança 24h. R$ 300 mil.",
+        "seo_descricao": "Apartamento à venda no Unique Felicità em São José do Rio Preto (região do Damha e da represa): 9º andar com vista, 2 quartos, planejados, lazer completo. R$ 300 mil, condomínio R$ 400. Aceita financiamento.",
         "preco": "R$ 300.000,00",
-        "obs_preco": "",
-        "condominio": "—",
+        "obs_preco": "Aceita financiamento",
+        "condominio": "R$ 400,00",
+        "iptu": "aprox. R$ 450,00/ano",
         "localizacao": "Região dos Dahmas, represa, mercado Oba, próximo ao Mc Donald e ao Carrefour.",
         "descricao_curta": "9º andar com vista para a represa • 2 quartos, cozinha e banheiro com planejados, varanda e lazer completo.",
         "destaques": ["9º andar", "2 quartos", "1 vaga", "Lazer completo"],
@@ -114,6 +117,7 @@ IMOVEIS = [
             "Dois quartos", "Lavanderia", "Varanda", "Vaga de garagem e vaga de visitantes",
             "Piscinas, churrasqueiras e playground", "Bicicletário, quadra de basquete e petplace",
             "Três elevadores e mercadinho Stok", "Segurança 24h",
+            "Condomínio R$ 400,00 • IPTU aprox. R$ 450,00/ano", "Aceita financiamento",
         ],
         "imagens": fotos("unique-felicita-9andar", 27),
     },
