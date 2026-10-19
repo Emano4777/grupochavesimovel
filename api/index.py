@@ -21,7 +21,7 @@ WHATSAPP_PHONE = "+5517981359872"
 WHATSAPP_EXIBICAO = "(17) 98135-9872"
 CRECI = "331483-F"
 MENSAGEM_BASE_IMOVEIS = "Olá! Vi o anúncio no site do Grupo Chaves Imóveis e tenho interesse"
-ATUALIZADO_EM = "2026-10-13"  # data de atualização dos anúncios (sitemap)
+ATUALIZADO_EM = "2026-10-19"  # data de atualização dos anúncios (sitemap)
 
 # IDs de rastreamento: configurar nas variáveis de ambiente do Vercel quando as contas existirem.
 RASTREIO = {
@@ -121,6 +121,56 @@ IMOVEIS = [
             "Condomínio R$ 400,00 • IPTU aprox. R$ 450,00/ano", "Aceita financiamento",
         ],
         "imagens": fotos("unique-felicita-9andar", 27),
+    },
+    {
+        "id": "cobertura-duplex-unique",
+        "tipo": "apartamento",
+        "valor": 450000,
+        "grupo": "Unique Felicità",
+        "bairro": "Região do Damha",
+        "categoria": "venda",
+        "titulo": "Cobertura Duplex no Unique Felicità • 17º e 18º andar",
+        "seo_titulo": "Cobertura duplex à venda no Unique Felicità, Rio Preto – área gourmet e vista, R$ 450 mil",
+        "seo_descricao": "Cobertura duplex à venda no Unique Felicità em São José do Rio Preto (região do Damha): 17º e 18º andar, 2 quartos e 2 banheiros com planejados, área gourmet com churrasqueira e vista para a represa. R$ 450 mil.",
+        "preco": "R$ 450.000,00",
+        "obs_preco": "",
+        "condominio": "—",
+        "localizacao": "Região dos Dahmas, represa, mercado Oba, próximo ao Mc Donald e ao Carrefour.",
+        "descricao_curta": "Duplex no 17º e 18º andar com vista para a represa • 2 quartos e 2 banheiros com planejados e cobertura com área gourmet e churrasqueira.",
+        "destaques": ["Duplex 17º/18º andar", "2 quartos", "2 banheiros", "Área gourmet privativa"],
+        "quartos": 2, "banheiros": 2, "area_m2": None, "terreno_m2": None,
+        "itens": [
+            "17º e 18º andar (duplex)", "Duas salas com planejados", "Cozinha com armários planejados",
+            "Dois banheiros com planejados", "Dois quartos com armários planejados",
+            "Cobertura com área gourmet e churrasqueira", "Lavanderia", "Varanda",
+            "Vaga de garagem e vaga de visitantes", "Piscinas adulto e infantil, churrasqueiras e playground",
+            "Bicicletário, quadra de basquete e petplace", "Três elevadores e mercadinho Stok", "Segurança 24h",
+        ],
+        "imagens": fotos("cobertura-duplex-unique", 19),
+    },
+    {
+        "id": "unique-felicita-14andar",
+        "tipo": "apartamento",
+        "valor": 260000,
+        "grupo": "Unique Felicità",
+        "bairro": "Região do Damha",
+        "categoria": "venda",
+        "titulo": "Apartamento no Unique Felicità • 14º andar",
+        "seo_titulo": "Apartamento à venda no Unique Felicità, Rio Preto – 14º andar, 2 quartos, R$ 260 mil",
+        "seo_descricao": "Apartamento à venda no Unique Felicità em São José do Rio Preto (região do Damha e da represa): 14º andar, 2 quartos, varanda, vaga e lazer completo com duas piscinas e segurança 24h. R$ 260 mil.",
+        "preco": "R$ 260.000,00",
+        "obs_preco": "",
+        "condominio": "—",
+        "localizacao": "Região dos Dahmas, represa, mercado Oba, próximo ao Mc Donald e ao Carrefour.",
+        "descricao_curta": "14º andar com varanda • 2 quartos, sala, cozinha, banheiro, vaga e lazer completo. As últimas fotos mostram as áreas comuns do condomínio.",
+        "destaques": ["14º andar", "2 quartos", "1 vaga", "Lazer completo"],
+        "quartos": 2, "banheiros": 1, "area_m2": None, "terreno_m2": None,
+        "itens": [
+            "14º andar", "Sala", "Cozinha", "Banheiro", "Dois quartos", "Lavanderia", "Varanda",
+            "Vaga de garagem e vaga de visitantes", "Duas piscinas, churrasqueiras e playground",
+            "Bicicletário, quadra de basquete e petplace", "Três elevadores e mercadinho Stok", "Segurança 24h",
+        ],
+        "imagens": fotos("unique-felicita-14andar", 11),
     },
 ]
 IMOVEIS_POR_ID = {i["id"]: i for i in IMOVEIS}
