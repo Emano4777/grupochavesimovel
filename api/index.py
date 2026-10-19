@@ -260,7 +260,7 @@ def contexto_global():
         "site_url": SITE_URL,
         "whatsapp_exibicao": WHATSAPP_EXIBICAO,
         "creci": CRECI,
-        "wa_base": f"https://api.whatsapp.com/send?phone={WHATSAPP_PHONE}&text=",
+        "wa_base": "https://wa.me/" + "".join(filter(str.isdigit, WHATSAPP_PHONE)) + "?text=",
         "mensagem_base": MENSAGEM_BASE_IMOVEIS,
         "rastreio": RASTREIO,
         "tipos_nomes": TIPOS,

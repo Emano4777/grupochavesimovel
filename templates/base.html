@@ -163,8 +163,8 @@
 <a href="#" class="wa-float" aria-label="Falar no WhatsApp" onclick="return contatoWhats('', '');"><i class="fab fa-whatsapp"></i></a>
 
 <script>
-  const WA_BASE = "{{ wa_base }}";
-  const MSG_BASE = "{{ mensagem_base }}";
+  const WA_BASE = {{ wa_base|tojson }};
+  const MSG_BASE = {{ mensagem_base|tojson }};
   const ADS_CONV = "{{ (rastreio.google_ads_id ~ '/' ~ rastreio.google_ads_conv) if (rastreio.google_ads_id and rastreio.google_ads_conv) else '' }}";
 
   // Clique no WhatsApp = conversão (GA4, Google Ads e Pixel da Meta, quando configurados)
