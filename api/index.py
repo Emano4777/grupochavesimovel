@@ -246,7 +246,7 @@ IMOVEIS = [
      'localizacao': 'Rua Katsumi Ohno, 201 – Chácara Jockey Club (Zona Rural), São José do Rio Preto – '
                     'SP, CEP 15062-003.',
      'endereco_completo': True,
-     'mapa_endereco': 'Rua Katsumi Ohno, 201, Chácara Jockey Club, São José do Rio Preto, SP, 15062-003',
+     'mapa_endereco': '-20.8327484,-49.3441582',
      'descricao_curta': 'Chácara de 1.500 m², toda alambrada e com portão, água de poço artesiano e '
                         'árvores frutíferas produzindo, em ótima localização.',
      'destaques': ['1.500 m² de terreno', 'Toda alambrada', 'Poço artesiano', 'Frutíferas produzindo'],
