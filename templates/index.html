@@ -148,7 +148,7 @@
           <div class="carousel-inner">
             {% for url in imovel.imagens %}
             <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
-              <a href="/imovel/{{ imovel.id }}"><img src="{{ url }}" class="d-block w-100" alt="{{ imovel.titulo }} – foto {{ loop.index }}" {% if loop.index0 > 0 %}loading="lazy"{% endif %}></a>
+              <a href="/imovel/{{ imovel.id }}"><img src="{{ url }}" class="d-block w-100{% if url == imovel.imagem_localizacao %} foto-localizacao{% endif %}" alt="{% if url == imovel.imagem_localizacao %}Mapa da localização da chácara: ponto amarelo Recanto do Lago e ponto verde Oba{% else %}{{ imovel.titulo }} – foto {{ loop.index }}{% endif %}" {% if loop.index0 > 0 %}loading="lazy"{% endif %}></a>
             </div>
             {% endfor %}
           </div>

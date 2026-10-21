@@ -54,7 +54,7 @@
         <div class="carousel-inner">
           {% for url in imovel.imagens %}
           <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
-            <img src="{{ url }}" alt="{{ imovel.titulo }} em São José do Rio Preto – foto {{ loop.index }}" {% if loop.index0 > 0 %}loading="lazy"{% endif %}>
+            <img src="{{ url }}" alt="{% if url == imovel.imagem_localizacao %}Mapa da localização da chácara: ponto amarelo Recanto do Lago e ponto verde Oba{% else %}{{ imovel.titulo }} em São José do Rio Preto – foto {{ loop.index }}{% endif %}" {% if loop.index0 > 0 %}loading="lazy"{% endif %}>
           </div>
           {% endfor %}
         </div>

@@ -247,6 +247,7 @@ IMOVEIS = [
                     'SP, CEP 15062-003.',
      'endereco_completo': True,
      'mapa_endereco': '-20.8327484,-49.3441582',
+     'imagem_localizacao': '/static/imoveis/chacara-jockey-club/05-localizacao.svg',
      'descricao_curta': 'Chácara de 1.500 m², toda alambrada e com portão, água de poço artesiano e '
                         'árvores frutíferas produzindo, em ótima localização.',
      'destaques': ['1.500 m² de terreno', 'Toda alambrada', 'Poço artesiano', 'Frutíferas produzindo'],
@@ -263,7 +264,8 @@ IMOVEIS = [
      'imagens': ['/static/imoveis/chacara-jockey-club/01.jpg',
                  '/static/imoveis/chacara-jockey-club/02.jpg',
                  '/static/imoveis/chacara-jockey-club/03.jpg',
-                 '/static/imoveis/chacara-jockey-club/04.jpg']},
+                 '/static/imoveis/chacara-jockey-club/04.jpg',
+                 '/static/imoveis/chacara-jockey-club/05-localizacao.svg']},
 ]
 IMOVEIS_POR_ID = {i["id"]: i for i in IMOVEIS}
 
