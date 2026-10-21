@@ -29,7 +29,6 @@
     .atalho{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;
       color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;transition:.15s}
     .atalho i{color:var(--gold-d)}
-    .atalho .n{background:var(--bg);border-radius:999px;padding:0 8px;font-size:12px;color:var(--muted)}
     .atalho:hover,.atalho.active{border-color:var(--gold);box-shadow:0 4px 14px rgba(212,166,42,.18)}
     .atalho.active{background:#fff8e3}
 
@@ -60,7 +59,7 @@
   <div class="container">
     <div class="text-center">
       <h1 class="serif gold-text">Imóveis à venda em Rio Preto e região</h1>
-      <p class="sub">{{ total_imoveis }} imóveis selecionados em São José do Rio Preto e região — atendimento direto pelo WhatsApp.</p>
+      <p class="sub">Imóveis selecionados em São José do Rio Preto e região — atendimento direto pelo WhatsApp.</p>
     </div>
 
     <form class="busca-card" method="get" action="/#listagem" role="search">
@@ -77,7 +76,7 @@
           <select id="f-tipo" class="form-select" name="tipo">
             <option value="">Todos</option>
             {% for k, nome, n in tipos %}
-            <option value="{{ k }}" {% if filtros.tipo == k %}selected{% endif %}>{{ nome }} ({{ n }})</option>
+            <option value="{{ k }}" {% if filtros.tipo == k %}selected{% endif %}>{{ nome }}</option>
             {% endfor %}
           </select>
         </div>
@@ -85,8 +84,8 @@
           <label for="f-cat">Finalidade</label>
           <select id="f-cat" class="form-select" name="cat">
             <option value="">Todas</option>
-            {% if total_venda %}<option value="venda" {% if filtros.cat == 'venda' %}selected{% endif %}>Comprar ({{ total_venda }})</option>{% endif %}
-            {% if total_aluguel %}<option value="aluguel" {% if filtros.cat == 'aluguel' %}selected{% endif %}>Alugar ({{ total_aluguel }})</option>{% endif %}
+            {% if total_venda %}<option value="venda" {% if filtros.cat == 'venda' %}selected{% endif %}>Comprar</option>{% endif %}
+            {% if total_aluguel %}<option value="aluguel" {% if filtros.cat == 'aluguel' %}selected{% endif %}>Alugar</option>{% endif %}
           </select>
         </div>
         <div class="col-12 col-sm-6 col-lg-2">
@@ -107,7 +106,7 @@
     <div class="atalhos">
       {% set icones = {'casa': 'fa-house', 'chacara': 'fa-tree', 'apartamento': 'fa-building'} %}
       {% for k, nome, n in tipos %}
-      <a class="atalho {% if filtros.tipo == k %}active{% endif %}" href="/?tipo={{ k }}#listagem"><i class="fa-solid {{ icones.get(k, 'fa-house') }}"></i>{{ nome }}<span class="n">{{ n }}</span></a>
+      <a class="atalho {% if filtros.tipo == k %}active{% endif %}" href="/?tipo={{ k }}#listagem"><i class="fa-solid {{ icones.get(k, 'fa-house') }}"></i>{{ nome }}</a>
       {% endfor %}
     </div>
   </div>
@@ -118,7 +117,7 @@
   <div class="lista-head">
     <div>
       <div class="eyebrow mb-1">{% if filtrando %}Resultado da busca{% else %}Imóveis à venda{% endif %}</div>
-      <h2 class="serif h3 mb-0">{{ imoveis|length }} {{ 'imóvel encontrado' if imoveis|length == 1 else 'imóveis encontrados' }}</h2>
+      <h2 class="serif h3 mb-0">{% if filtrando %}Imóveis para sua busca{% else %}Encontre seu próximo imóvel{% endif %}</h2>
     </div>
     {% if filtrando %}
     <div class="d-flex flex-wrap align-items-center gap-2">

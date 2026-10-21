@@ -21,7 +21,7 @@ WHATSAPP_PHONE = "+5517981359872"
 WHATSAPP_EXIBICAO = "(17) 98135-9872"
 CRECI = "331483-F"
 MENSAGEM_BASE_IMOVEIS = "Olá! Vi o anúncio no site do Grupo Chaves Imóveis e tenho interesse"
-ATUALIZADO_EM = "2026-10-19"  # data de atualização dos anúncios (sitemap)
+ATUALIZADO_EM = "2026-10-21"  # data de atualização dos anúncios (sitemap)
 
 # IDs de rastreamento: configurar nas variáveis de ambiente do Vercel quando as contas existirem.
 RASTREIO = {
@@ -174,6 +174,95 @@ IMOVEIS = [
         ],
         "imagens": fotos("unique-felicita-14andar", 11),
     },
+    {'id': 'unique-felicita-14andar-planejados',
+     'tipo': 'apartamento',
+     'valor': 350000,
+     'grupo': 'Unique Felicità',
+     'bairro': 'Região do Damha',
+     'categoria': 'venda',
+     'titulo': 'Apartamento com planejados no Unique Felicità • 14º andar',
+     'seo_titulo': 'Apartamento com planejados à venda no Unique Felicità, Rio Preto – 14º andar, R$ '
+                   '350 mil',
+     'seo_descricao': 'Apartamento no Unique Felicità, em São José do Rio Preto: 14º andar, 2 quartos, '
+                      'sala, cozinha e banheiro com planejados, varanda, vaga e lazer completo. Venda '
+                      'por R$ 350 mil.',
+     'preco': 'R$ 350.000,00',
+     'obs_preco': '',
+     'condominio': '—',
+     'localizacao': "Região dos Dahmas e da represa, perto do mercado Oba, McDonald's e Carrefour.",
+     'descricao_curta': '14º andar • 2 quartos, sala, cozinha e banheiro com planejados, lavanderia, '
+                        'varanda, vaga de garagem e lazer completo.',
+     'destaques': ['14º andar', '2 quartos com planejados', '1 vaga', 'Lazer completo'],
+     'quartos': 2,
+     'banheiros': 1,
+     'area_m2': None,
+     'terreno_m2': None,
+     'itens': ['14º andar',
+               'Sala com planejados',
+               'Cozinha com planejados',
+               'Banheiro com planejados',
+               'Dois quartos com planejados',
+               'Lavanderia',
+               'Varanda',
+               'Vaga de garagem',
+               'Vaga de visitantes',
+               'Piscinas',
+               'Churrasqueiras',
+               'Playground',
+               'Bicicletário',
+               'Quadra de basquete',
+               'Petplace',
+               'Três elevadores',
+               'Mercadinho Stok',
+               'Segurança 24h'],
+     'imagens': ['/static/imoveis/unique-felicita-14andar-planejados/01.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/02.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/03.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/04.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/05.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/06.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/07.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/08.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/09.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/10.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/11.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/12.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/13.jpg',
+                 '/static/imoveis/unique-felicita-14andar-planejados/14.jpg']},
+    {'id': 'chacara-jockey-club',
+     'tipo': 'chacara',
+     'valor': 265000,
+     'grupo': 'Chácara Jockey Club',
+     'bairro': 'Chácara Jockey Club (Zona Rural)',
+     'categoria': 'venda',
+     'titulo': 'Chácara de 1.500 m² no Jockey Club',
+     'seo_titulo': 'Chácara de 1.500 m² à venda no Jockey Club, São José do Rio Preto – R$ 265 mil',
+     'seo_descricao': 'Chácara de 1.500 m² no Jockey Club, São José do Rio Preto, toda alambrada, com '
+                      'portão, água de poço artesiano e árvores frutíferas produzindo. Rua Katsumi '
+                      'Ohno, 201. R$ 265 mil.',
+     'preco': 'R$ 265.000,00',
+     'obs_preco': '',
+     'condominio': '—',
+     'localizacao': 'Rua Katsumi Ohno, 201 – Chácara Jockey Club (Zona Rural), São José do Rio Preto – '
+                    'SP, CEP 15062-003.',
+     'endereco_completo': True,
+     'descricao_curta': 'Chácara de 1.500 m², toda alambrada e com portão, água de poço artesiano e '
+                        'árvores frutíferas produzindo, em ótima localização.',
+     'destaques': ['1.500 m² de terreno', 'Toda alambrada', 'Poço artesiano', 'Frutíferas produzindo'],
+     'quartos': None,
+     'banheiros': None,
+     'area_m2': None,
+     'terreno_m2': 1500,
+     'itens': ['Terreno com área informada de 1.500 m²',
+               'Toda alambrada',
+               'Portão',
+               'Água de poço artesiano',
+               'Árvores frutíferas produzindo',
+               'Ótima localização no Jockey Club'],
+     'imagens': ['/static/imoveis/chacara-jockey-club/01.jpg',
+                 '/static/imoveis/chacara-jockey-club/02.jpg',
+                 '/static/imoveis/chacara-jockey-club/03.jpg',
+                 '/static/imoveis/chacara-jockey-club/04.jpg']},
 ]
 IMOVEIS_POR_ID = {i["id"]: i for i in IMOVEIS}
 

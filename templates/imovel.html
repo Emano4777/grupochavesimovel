@@ -121,7 +121,9 @@
       <div class="bloco mt-3">
         <h2 class="serif h5 mb-3">Localização</h2>
         <p class="mb-1"><i class="fa-solid fa-location-dot me-2" style="color:var(--gold)"></i>{{ imovel.localizacao }}</p>
+        {% if not imovel.endereco_completo %}
         <p class="text-muted small mb-0">São José do Rio Preto – SP. O endereço completo é informado no agendamento da visita.</p>
+        {% endif %}
       </div>
     </div>
   </div>
