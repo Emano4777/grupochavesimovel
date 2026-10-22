@@ -231,16 +231,16 @@ IMOVEIS = [
                  '/static/imoveis/unique-felicita-14andar-planejados/14.jpg']},
     {'id': 'chacara-jockey-club',
      'tipo': 'chacara',
-     'valor': 265000,
+     'valor': 250000,
      'grupo': 'Chácara Jockey Club',
      'bairro': 'Chácara Jockey Club (Zona Rural)',
      'categoria': 'venda',
      'titulo': 'Chácara de 1.500 m² no Jockey Club',
-     'seo_titulo': 'Chácara de 1.500 m² à venda no Jockey Club, São José do Rio Preto – R$ 265 mil',
+     'seo_titulo': 'Chácara de 1.500 m² à venda no Jockey Club, São José do Rio Preto – R$ 250 mil',
      'seo_descricao': 'Chácara de 1.500 m² no Jockey Club, São José do Rio Preto, toda alambrada, com '
                       'portão, água de poço artesiano e árvores frutíferas produzindo. Rua Katsumi '
-                      'Ohno, 201. R$ 265 mil.',
-     'preco': 'R$ 265.000,00',
+                      'Ohno, 201. R$ 250 mil.',
+     'preco': 'R$ 250.000,00',
      'obs_preco': '',
      'condominio': '—',
      'localizacao': 'Rua Katsumi Ohno, 201 – Chácara Jockey Club (Zona Rural), São José do Rio Preto – '
