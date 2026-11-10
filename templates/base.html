@@ -87,7 +87,14 @@
     .menu a{color:#cfd5d9;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:.3px}
     .menu a:hover{color:var(--gold-l)}
     .topbar .btn-wa{border-radius:999px;padding:8px 16px;font-size:14px}
-    @media (max-width:768px){ .menu{display:none} .topbar .btn-wa{margin-left:auto} }
+    .menu a.menu-wa{color:var(--gold-l)}
+    .menu a.menu-wa:hover{color:#fff}
+    @media (max-width:768px){
+      .topbar .container{flex-wrap:wrap;row-gap:0}
+      .topbar .btn-wa{margin-left:auto}
+      .menu{order:3;width:100%;margin:0;justify-content:center;gap:22px;padding:2px 0 10px}
+      .menu a:not(.menu-wa){display:none}
+    }
     @media (max-width:400px){ .brand-text strong{font-size:18px} .topbar .btn-wa span{display:none} }
 
     /* ===== Cards de imóvel ===== */
@@ -130,6 +137,9 @@
       <span class="brand-text gold-text"><small>GRUPO CHAVES</small><strong>IMÓVEIS</strong></span>
     </a>
     <nav class="menu">
+      <a href="#" class="menu-wa" onclick="return contatoWhats('', '', 'Olá! Vi o site do Grupo Chaves Imóveis e quero comprar um imóvel.');">Compras</a>
+      <a href="#" class="menu-wa" onclick="return contatoWhats('', '', 'Olá! Vi o site do Grupo Chaves Imóveis e quero vender meu imóvel.');">Vendas</a>
+      <a href="#" class="menu-wa" onclick="return contatoWhats('', '', 'Olá! Vi o site do Grupo Chaves Imóveis e tenho interesse em imóveis de leilão.');">Leilão</a>
       <a href="/#busca">Buscar</a>
       <a href="/#listagem">Imóveis</a>
       <a href="/#sobre">Por que nós</a>

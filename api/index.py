@@ -21,7 +21,7 @@ WHATSAPP_PHONE = "+5517981359872"
 WHATSAPP_EXIBICAO = "(17) 98135-9872"
 CRECI = "331483-F"
 MENSAGEM_BASE_IMOVEIS = "Olá! Vi o anúncio no site do Grupo Chaves Imóveis e tenho interesse"
-ATUALIZADO_EM = "2026-10-27"  # data de atualização dos anúncios (sitemap)
+ATUALIZADO_EM = "2026-11-10"  # data de atualização dos anúncios (sitemap)
 
 # IDs de rastreamento: configurar nas variáveis de ambiente do Vercel quando as contas existirem.
 RASTREIO = {
@@ -39,6 +39,94 @@ def fotos(slug, total):
 
 
 IMOVEIS = [
+    {'id': 'fazenda-paranaiba-ms',
+     'tipo': 'fazenda',
+     'valor': 5040000,
+     'grupo': 'Fazenda',
+     'bairro': 'Zona Rural',
+     'cidade': 'Paranaíba',
+     'uf': 'MS',
+     'categoria': 'venda',
+     'titulo': 'Fazenda de 135,52 hectares (28 alqueirões) em Paranaíba/MS',
+     'seo_titulo': 'Fazenda à venda em Paranaíba/MS – 135,52 ha (28 alqueirões), R$ 5,04 milhões',
+     'seo_descricao': 'Fazenda à venda a 50 km de Paranaíba/MS: 135,52 hectares (28 alqueirões), 5 divisões de pasto, sem benfeitorias. R$ 180 mil por alqueirão, total R$ 5.040.000,00. Aceita permuta por casa de alto padrão ou posto de combustível.',
+     'preco': 'R$ 5.040.000,00',
+     'obs_preco': 'Aceita permuta',
+     'condominio': '—',
+     'localizacao': 'Zona rural, a 50 km de Paranaíba – MS.',
+     'descricao_curta': 'Fazenda com 135,52 hectares (28 alqueirões), a 50 km de Paranaíba/MS, com 5 divisões de pasto e sem benfeitorias. R$ 180.000,00 por alqueirão. Aceita permuta por casa de alto padrão ou posto de combustível no mesmo valor. Negociação direta.',
+     'destaques': ['135,52 hectares', '28 alqueirões', '5 divisões de pasto', 'Aceita permuta'],
+     'quartos': None,
+     'banheiros': None,
+     'area_m2': None,
+     'terreno_m2': None,
+     'itens': ['Área total de 135,52 hectares (28 alqueirões)',
+               'Localizada a 50 km de Paranaíba/MS',
+               '5 divisões de pasto',
+               'Propriedade sem benfeitorias',
+               'Valor: R$ 180.000,00 por alqueirão',
+               'Valor total: R$ 5.040.000,00',
+               'Aceita permuta por casa de alto padrão ou posto de combustível no mesmo valor',
+               'Negociação direta'],
+     'foto_inteira': True,  # arte quadrada: mostrar inteira no card
+     'imagens': fotos('fazenda-paranaiba-ms', 1)},
+    {'id': 'cobertura-duplex-upside',
+     'tipo': 'apartamento',
+     'valor': 580000,
+     'grupo': 'UPside',
+     'bairro': 'Frente à represa',
+     'categoria': 'venda',
+     'titulo': 'Cobertura Duplex no UPside • Frente à represa',
+     'seo_titulo': 'Cobertura duplex à venda no UPside, frente à represa, Rio Preto – R$ 580 mil',
+     'seo_descricao': 'Cobertura duplex à venda no condomínio UPside, de frente para a represa de São José do Rio Preto: terraço com churrasqueira e vista panorâmica, quartos com piso laminado e lavanderia. R$ 580 mil.',
+     'preco': 'R$ 580.000,00',
+     'obs_preco': '',
+     'condominio': 'Consultar',
+     'localizacao': 'Condomínio UPside, de frente para a represa de São José do Rio Preto – SP.',
+     'descricao_curta': 'Cobertura duplex nova no UPside, de frente para a represa, com terraço privativo, churrasqueira e vista panorâmica da cidade.',
+     'destaques': ['Duplex', 'Frente à represa', 'Terraço com churrasqueira', 'Vista panorâmica'],
+     'quartos': None,
+     'banheiros': None,
+     'area_m2': None,
+     'terreno_m2': None,
+     'itens': ['Cobertura duplex',
+               'De frente para a represa',
+               'Terraço privativo com churrasqueira e pia',
+               'Vista panorâmica da represa e da cidade',
+               'Quartos com piso laminado',
+               'Banheiros com bancada em granito',
+               'Lavanderia',
+               'Varanda',
+               'Imóvel novo',
+               'Portaria com controle de acesso'],
+     'imagens': fotos('cobertura-duplex-upside', 13)},
+    {'id': 'sobrado-jardim-estrela-aluguel',
+     'tipo': 'casa',
+     'valor': 1500,
+     'grupo': 'Sobrado',
+     'bairro': 'Jardim Estrela',
+     'categoria': 'aluguel',
+     'titulo': 'Sobrado para alugar no Jardim Estrela',
+     'seo_titulo': 'Sobrado para alugar no Jardim Estrela, Rio Preto – 2 quartos, R$ 1.500/mês',
+     'seo_descricao': 'Sobrado para alugar na Rua Lions Internacional, 200, Jardim Estrela, São José do Rio Preto: cozinha, lavanderia, sala e banheiro embaixo; 2 quartos e banheiro em cima. R$ 1.500,00/mês.',
+     'preco': 'R$ 1.500,00/mês',
+     'obs_preco': '',
+     'condominio': '—',
+     'localizacao': 'Rua Lions Internacional, 200 – Jardim Estrela, São José do Rio Preto – SP, CEP 15070-140.',
+     'endereco_completo': True,
+     'mapa_endereco': 'Rua Lions Internacional, 200, Jardim Estrela, São José do Rio Preto - SP, 15070-140',
+     'descricao_curta': 'Sobrado com cozinha, lavanderia, sala e banheiro no térreo, e 2 quartos e banheiro no andar de cima. Garagem coberta e quintal.',
+     'destaques': ['Sobrado', '2 quartos', '2 banheiros', 'Garagem coberta'],
+     'quartos': 2,
+     'banheiros': 2,
+     'area_m2': None,
+     'terreno_m2': None,
+     'itens': ['Térreo: cozinha, lavanderia, sala e banheiro',
+               'Andar de cima: 2 quartos e banheiro',
+               'Garagem coberta',
+               'Quintal',
+               'Aluguel: R$ 1.500,00/mês'],
+     'imagens': fotos('sobrado-jardim-estrela', 15)},
     {
         "id": "casa-boa-vista",
         "tipo": "casa",
@@ -448,8 +536,8 @@ IMOVEIS = [
 ]
 IMOVEIS_POR_ID = {i["id"]: i for i in IMOVEIS}
 
-TIPOS = {"casa": "Casa", "chacara": "Chácara", "apartamento": "Apartamento"}
-TIPOS_SCHEMA = {"casa": "SingleFamilyResidence", "chacara": "House", "apartamento": "Apartment"}
+TIPOS = {"casa": "Casa", "chacara": "Chácara", "apartamento": "Apartamento", "fazenda": "Fazenda"}
+TIPOS_SCHEMA = {"casa": "SingleFamilyResidence", "chacara": "House", "apartamento": "Apartment", "fazenda": "Place"}
 FAIXAS_PRECO = [  # (valor máximo, rótulo)
     (350000, "Até R$ 350 mil"),
     (600000, "Até R$ 600 mil"),
@@ -499,7 +587,7 @@ def schema_imovel(i):
     imovel = {
         "@type": TIPOS_SCHEMA.get(i["tipo"], "House"),
         "name": i["titulo"],
-        "address": {"@type": "PostalAddress", "addressLocality": CIDADE, "addressRegion": "SP", "addressCountry": "BR"},
+        "address": {"@type": "PostalAddress", "addressLocality": i.get("cidade", CIDADE), "addressRegion": i.get("uf", "SP"), "addressCountry": "BR"},
         "numberOfRooms": i.get("quartos"),
         "numberOfBathroomsTotal": i.get("banheiros"),
     }

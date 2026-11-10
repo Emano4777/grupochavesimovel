@@ -54,7 +54,7 @@
         <div class="carousel-inner">
           {% for url in imovel.imagens %}
           <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
-            <img src="{{ url }}" alt="{% if url == imovel.imagem_localizacao %}Mapa da localização da chácara: ponto amarelo Recanto do Lago e ponto verde Oba{% else %}{{ imovel.titulo }} em São José do Rio Preto – foto {{ loop.index }}{% endif %}" {% if loop.index0 > 0 %}loading="lazy"{% endif %}>
+            <img src="{{ url }}" alt="{% if url == imovel.imagem_localizacao %}Mapa da localização da chácara: ponto amarelo Recanto do Lago e ponto verde Oba{% else %}{{ imovel.titulo }} em {{ imovel.cidade or 'São José do Rio Preto' }} – foto {{ loop.index }}{% endif %}" {% if loop.index0 > 0 %}loading="lazy"{% endif %}>
           </div>
           {% endfor %}
         </div>
@@ -80,7 +80,7 @@
       <aside class="painel">
         <span class="tag-tipo position-static d-inline-block mb-3">{{ tipos_nomes.get(imovel.tipo) }} • {{ 'Venda' if imovel.categoria=='venda' else 'Aluguel' }}</span>
         <h1>{{ imovel.titulo }}</h1>
-        <p class="text-muted small mb-3"><i class="fa-solid fa-location-dot me-1" style="color:var(--gold)"></i>{{ imovel.bairro }} • São José do Rio Preto – SP</p>
+        <p class="text-muted small mb-3"><i class="fa-solid fa-location-dot me-1" style="color:var(--gold)"></i>{{ imovel.bairro }} • {{ imovel.cidade or 'São José do Rio Preto' }} – {{ imovel.uf or 'SP' }}</p>
         <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
           <div class="preco">{{ imovel.preco }}</div>
           {% if imovel.obs_preco %}<span class="obs-preco">{{ imovel.obs_preco }}</span>{% endif %}
@@ -132,7 +132,7 @@
         </a>
         {% endif %}
         {% if not imovel.endereco_completo %}
-        <p class="text-muted small mb-0">São José do Rio Preto – SP. O endereço completo é informado no agendamento da visita.</p>
+        <p class="text-muted small mb-0">{{ imovel.cidade or 'São José do Rio Preto' }} – {{ imovel.uf or 'SP' }}. O endereço completo é informado no agendamento da visita.</p>
         {% endif %}
       </div>
     </div>
@@ -141,7 +141,7 @@
   {% if outros %}
   <section class="mt-5">
     <div class="eyebrow mb-1">Veja também</div>
-    <h2 class="serif h4 mb-3">Outros imóveis em Rio Preto</h2>
+    <h2 class="serif h4 mb-3">Outros imóveis</h2>
     <div class="row g-3">
       {% for o in outros %}
       <div class="col-md-6">
